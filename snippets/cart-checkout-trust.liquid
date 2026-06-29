@@ -1,0 +1,17 @@
+{%- doc -%}
+  Compact trust badges shown before the checkout button.
+{%- enddoc -%}
+
+{%- if cart.empty? == false -%}
+  <ul class="cart-checkout-trust">
+    {%- if settings.cart_trust_text_1 != blank -%}
+      <li class="cart-checkout-trust__item">{{ settings.cart_trust_text_1 }}</li>
+    {%- endif -%}
+    {%- if settings.cart_trust_text_2 != blank -%}
+      <li class="cart-checkout-trust__item">{{ settings.cart_trust_text_2 }}</li>
+    {%- endif -%}
+    {%- if settings.cart_trust_text_3 != blank -%}
+      <li class="cart-checkout-trust__item">{{ settings.cart_trust_text_3 }}</li>
+    {%- endif -%}
+  </ul>
+{%- endif -%}

@@ -1,0 +1,63 @@
+{%- doc -%}
+  Category card for Shop Product Range grid.
+{%- enddoc -%}
+
+{%- liquid
+  assign card_href = block.settings.link | default: '#'
+
+  if block.settings.catalog_target_type != 'none' and block.settings.catalog_target_type != blank
+    case block.settings.catalog_target_type
+      when 'all'
+        assign card_href = '#all-products'
+      when 'new_arrivals'
+        assign card_href = '#new-arrivals'
+      when 'collections'
+        assign card_href = '#new-arrivals'
+      when 'groups'
+        assign card_href = '#all-products'
+      when 'collection_item'
+        if block.settings.catalog_anchor != blank
+          assign card_href = '#' | append: block.settings.catalog_anchor
+        endif
+      when 'group_item'
+        if block.settings.catalog_anchor != blank
+          assign card_href = '#' | append: block.settings.catalog_anchor
+        endif
+    endcase
+  endif
+-%}
+
+<a
+  href="{{ card_href }}"
+  class="rb-category-card"
+  {{ block.shopify_attributes }}
+>
+  <div class="rb-category-card__image">
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          widths: '300, 400, 600, 800',
+          sizes: '(min-width: 62rem) 20rem, (min-width: 37.5rem) 14rem, 10rem',
+          class: 'rb-category-card__img'
+      }}
+    {%- elsif block.settings.demo_image != blank -%}
+      <img
+        src="{{ block.settings.demo_image | asset_url }}"
+        alt="{{ block.settings.title | escape }}"
+        loading="lazy"
+        class="rb-category-card__img"
+      >
+    {%- else -%}
+      <div
+        class="rb-category-card__placeholder"
+        style="--cat-color-1: {{ block.settings.color_1 }}; --cat-color-2: {{ block.settings.color_2 }};"
+      ></div>
+    {%- endif -%}
+    {%- if block.settings.title != blank -%}
+      <span class="rb-category-card__pill">{{ block.settings.title }}</span>
+    {%- endif -%}
+  </div>
+</a>

@@ -1,0 +1,22 @@
+{%- doc -%}
+  Resolves menu link URLs for known store pages.
+
+  @param {link} link - Shopify menu link object
+{%- enddoc -%}
+
+{%- liquid
+  assign resolved_url = link.url
+  assign link_handle = link.handle | downcase
+  assign link_title = link.title | downcase
+
+  if link_handle == 'about-us' or link_title == 'about us'
+    assign target_page = pages['about-us']
+    if target_page != blank
+      assign resolved_url = target_page.url
+    else
+      assign resolved_url = '/pages/about-us'
+    endif
+  endif
+
+  echo resolved_url
+-%}

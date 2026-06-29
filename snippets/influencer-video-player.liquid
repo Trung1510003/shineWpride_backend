@@ -1,0 +1,52 @@
+{%- doc -%}
+  Video player placeholder for influencer modal.
+  YouTube iframes are injected on click via JS to prevent autoplay on scroll.
+
+  @param {object} block - Block with video_url and name
+{%- enddoc -%}
+
+{%- liquid
+  assign yt_id = blank
+  assign url = block.settings.video_url | default: '' | strip
+
+  if url != blank
+    if url contains 'youtu.be/'
+      assign yt_part = url | split: 'youtu.be/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first | split: '/' | first
+    elsif url contains '/shorts/'
+      assign yt_part = url | split: '/shorts/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first
+    elsif url contains '/embed/'
+      assign yt_part = url | split: '/embed/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first
+    elsif url contains 'watch?v='
+      assign yt_part = url | split: 'v=' | last
+      assign yt_id = yt_part | split: '&' | first | split: '#' | first
+    elsif url contains 'youtube.com/watch/'
+      assign yt_part = url | split: 'youtube.com/watch/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first | split: '/' | first
+    endif
+  endif
+-%}
+
+{%- if block.settings.video != blank -%}
+  {{
+    block.settings.video
+    | video_tag:
+      image_size: '1100x',
+      autoplay: false,
+      loop: false,
+      controls: true,
+      muted: false,
+      preload: 'none',
+      class: 'influencer-modal__video'
+  }}
+{%- elsif yt_id != blank -%}
+  <div
+    class="influencer-modal__embed"
+    data-yt-id="{{ yt_id }}"
+    data-yt-title="{{ block.settings.name | escape }}"
+  ></div>
+{%- elsif url != blank -%}
+  <video class="influencer-modal__video" controls playsinline preload="none" src="{{ url }}"></video>
+{%- endif -%}

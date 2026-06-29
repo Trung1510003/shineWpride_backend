@@ -1,0 +1,262 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign shop_url = section.settings.shop_link | default: routes.all_products_collection_url
+  assign collections_url = section.settings.collections_link | default: routes.collections_url
+  assign new_arrivals_url = section.settings.new_arrivals_link | default: shop_url
+  assign sale_url = section.settings.sale_link | default: shop_url
+  assign contact_url = section.settings.contact_link | default: '/pages/contact'
+  assign faq_url = section.settings.faq_link | default: '/pages/faq'
+  assign shipping_url = section.settings.shipping_link | default: '/pages/shipping-policy'
+  assign returns_url = section.settings.returns_link | default: '/pages/refund-policy'
+  assign about_url = section.settings.about_link
+  if about_url == blank
+    assign about_page = pages['about-us']
+    if about_page != blank
+      assign about_url = about_page.url
+    else
+      assign about_url = routes.root_url
+    endif
+  endif
+  assign privacy_url = section.settings.privacy_link | default: '/pages/privacy-policy'
+  assign terms_url = section.settings.terms_link | default: '/pages/terms-of-service'
+  assign careers_url = section.settings.careers_link | default: about_url
+-%}
+
+<div class="am-footer">
+  <div class="am-footer__inner rb-home-shell">
+    <div class="am-footer__grid">
+      <div class="am-footer__column">
+        {%- if section.settings.brand_name != blank -%}
+          <h3 class="am-footer__brand">{{ section.settings.brand_name }}</h3>
+        {%- endif -%}
+        {%- if section.settings.brand_text != blank -%}
+          <p class="am-footer__brand-text">{{ section.settings.brand_text }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="am-footer__column">
+        <h4 class="am-footer__heading">{{ section.settings.shop_heading }}</h4>
+        <ul class="am-footer__links">
+          <li><a href="{{ shop_url }}">{{ section.settings.all_products_label }}</a></li>
+          <li><a href="{{ new_arrivals_url }}">{{ section.settings.new_arrivals_label }}</a></li>
+          <li><a href="{{ sale_url }}">{{ section.settings.sale_label }}</a></li>
+          <li><a href="{{ collections_url }}">{{ section.settings.collections_label }}</a></li>
+        </ul>
+      </div>
+
+      <div class="am-footer__column">
+        <h4 class="am-footer__heading">{{ section.settings.support_heading }}</h4>
+        <ul class="am-footer__links">
+          <li><a href="{{ contact_url }}">{{ section.settings.contact_label }}</a></li>
+          <li><a href="{{ faq_url }}">{{ section.settings.faq_label }}</a></li>
+          <li><a href="{{ shipping_url }}">{{ section.settings.shipping_label }}</a></li>
+          <li><a href="{{ returns_url }}">{{ section.settings.returns_label }}</a></li>
+        </ul>
+      </div>
+
+      <div class="am-footer__column">
+        <h4 class="am-footer__heading">{{ section.settings.company_heading }}</h4>
+        <ul class="am-footer__links">
+          <li><a href="{{ about_url }}">{{ section.settings.about_label }}</a></li>
+          <li><a href="{{ privacy_url }}">{{ section.settings.privacy_label }}</a></li>
+          <li><a href="{{ terms_url }}">{{ section.settings.terms_label }}</a></li>
+          <li><a href="{{ careers_url }}">{{ section.settings.careers_label }}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="am-footer__bottom">
+      {%- assign copyright_year = 'now' | date: '%Y' -%}
+      <p class="am-footer__copyright">{{ section.settings.copyright_text | replace: '[year]', copyright_year }}</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Artistry footer",
+  "tag": "footer",
+  "class": "am-footer-section am-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "ShineW Pride"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_text",
+      "label": "Brand description",
+      "default": "Celebrate pride, identity, and self-expression with bold designs from independent LGBTQ+ artists."
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop column heading",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "all_products_label",
+      "label": "All products label",
+      "default": "All Products"
+    },
+    {
+      "type": "text",
+      "id": "new_arrivals_label",
+      "label": "New arrivals label",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "sale_label",
+      "label": "Sale label",
+      "default": "Sale"
+    },
+    {
+      "type": "text",
+      "id": "collections_label",
+      "label": "Collections label",
+      "default": "Collections"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Shop link"
+    },
+    {
+      "type": "url",
+      "id": "new_arrivals_link",
+      "label": "New arrivals link"
+    },
+    {
+      "type": "url",
+      "id": "sale_link",
+      "label": "Sale link"
+    },
+    {
+      "type": "url",
+      "id": "collections_link",
+      "label": "Collections link"
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support column heading",
+      "default": "Support"
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Contact label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "faq_label",
+      "label": "FAQ label",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "shipping_label",
+      "label": "Shipping label",
+      "default": "Shipping Info"
+    },
+    {
+      "type": "text",
+      "id": "returns_label",
+      "label": "Returns label",
+      "default": "Returns"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact link"
+    },
+    {
+      "type": "url",
+      "id": "faq_link",
+      "label": "FAQ link"
+    },
+    {
+      "type": "url",
+      "id": "shipping_link",
+      "label": "Shipping link"
+    },
+    {
+      "type": "url",
+      "id": "returns_link",
+      "label": "Returns link"
+    },
+    {
+      "type": "text",
+      "id": "company_heading",
+      "label": "Company column heading",
+      "default": "Company"
+    },
+    {
+      "type": "text",
+      "id": "about_label",
+      "label": "About label",
+      "default": "About Us"
+    },
+    {
+      "type": "text",
+      "id": "privacy_label",
+      "label": "Privacy label",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "text",
+      "id": "terms_label",
+      "label": "Terms label",
+      "default": "Terms of Service"
+    },
+    {
+      "type": "text",
+      "id": "careers_label",
+      "label": "Careers label",
+      "default": "Careers"
+    },
+    {
+      "type": "url",
+      "id": "about_link",
+      "label": "About link"
+    },
+    {
+      "type": "url",
+      "id": "privacy_link",
+      "label": "Privacy link"
+    },
+    {
+      "type": "url",
+      "id": "terms_link",
+      "label": "Terms link"
+    },
+    {
+      "type": "url",
+      "id": "careers_link",
+      "label": "Careers link"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "© [year] ShineW Pride. All rights reserved.",
+      "info": "Use [year] for the current year"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artistry footer"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

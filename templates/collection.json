@@ -1,0 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "am_shop_header": {
+      "type": "am-page-header",
+      "settings": {
+        "heading": "Shop All Products",
+        "subheading": "Explore our complete collection of unique designs"
+      }
+    },
+    "main": {
+      "type": "am-shop-collection",
+      "settings": {
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": [
+    "am_shop_header",
+    "main"
+  ]
+}

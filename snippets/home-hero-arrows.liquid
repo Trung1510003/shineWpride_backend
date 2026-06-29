@@ -1,0 +1,54 @@
+<slideshow-arrows position="center" class="home-hero-arrows">
+  <button
+    type="button"
+    class="slideshow-control slideshow-control--previous home-hero-arrow button button-unstyled button-unstyled--transparent"
+    aria-label="{{ 'accessibility.slideshow_previous' | t }}"
+    on:click="/previous"
+    ref="previous"
+  >
+    <span class="home-hero-arrow__icon" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M14 7L9 12L14 17"
+          stroke="url(#home-hero-pride-{{ section.id }})"
+          stroke-width="2.25"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </button>
+  <button
+    type="button"
+    class="slideshow-control slideshow-control--next home-hero-arrow button button-unstyled button-unstyled--transparent"
+    aria-label="{{ 'accessibility.slideshow_next' | t }}"
+    on:click="/next"
+    ref="next"
+  >
+    <span class="home-hero-arrow__icon" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M10 7L15 12L10 17"
+          stroke="url(#home-hero-pride-{{ section.id }})"
+          stroke-width="2.25"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </button>
+</slideshow-arrows>
+
+<svg width="0" height="0" class="visually-hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="home-hero-pride-{{ section.id }}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="0">
+      <stop offset="0%" stop-color="#e40303"/>
+      <stop offset="17%" stop-color="#ff8c00"/>
+      <stop offset="33%" stop-color="#ffed00"/>
+      <stop offset="50%" stop-color="#008026"/>
+      <stop offset="67%" stop-color="#24408e"/>
+      <stop offset="83%" stop-color="#732982"/>
+      <stop offset="100%" stop-color="#e40303"/>
+    </linearGradient>
+  </defs>
+</svg>

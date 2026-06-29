@@ -1,0 +1,39 @@
+.shinewpride-image-protection {
+  display: none;
+}
+
+html.shinewpride-image-protection-enabled .no-save,
+html.shinewpride-image-protection-enabled img.no-save {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+html.shinewpride-image-protection-enabled .img-guard-wrap {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+}
+
+html.shinewpride-image-protection-enabled .img-guard-wrap .am-product-card__img,
+html.shinewpride-image-protection-enabled .img-guard-wrap .product-media__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+html.shinewpride-image-protection-enabled .img-guard {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  pointer-events: auto;
+}
+
+html.shinewpride-image-protection-enabled.is-protected-blur .am-product-card__img,
+html.shinewpride-image-protection-enabled.is-protected-blur .product-media__image,
+html.shinewpride-image-protection-enabled.is-protected-blur img.no-save {
+  filter: blur(8px);
+  transition: filter 0.2s ease;
+}

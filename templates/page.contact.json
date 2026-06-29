@@ -1,0 +1,110 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "intro_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>We'd love to hear from you! Whether you have a question about an order, need help with a return, or just want to say hello — our team is here for you.</p>"
+          }
+        },
+        "contact_details": {
+          "type": "contact_info",
+          "settings": {
+            "email": "hello@shinewpride.com",
+            "email_label": "Email",
+            "phone": "+1 (555) 123-4567",
+            "phone_label": "Phone",
+            "hours": "Monday – Friday: 9:00 AM – 6:00 PM EST\nSaturday – Sunday: Closed",
+            "hours_label": "Business Hours",
+            "address": "ShineWpride\n123 Pride Avenue\nNew York, NY 10001\nUnited States",
+            "address_label": "Mailing Address"
+          }
+        },
+        "response": {
+          "type": "callout",
+          "settings": {
+            "body": "<p><strong>Response time:</strong> We aim to reply to all inquiries within 1–2 business days. For urgent order issues, please include your order number in the subject line.</p>"
+          }
+        }
+      },
+      "block_order": ["intro_text", "contact_details", "response"],
+      "settings": {
+        "title": "Contact Us",
+        "intro": "Get in touch — we're here to help.",
+        "show_header": true,
+        "wide_layout": false,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 32
+      }
+    },
+    "form": {
+      "type": "section",
+      "blocks": {
+        "contact_form": {
+          "type": "contact-form",
+          "settings": {
+            "width": "custom",
+            "custom_width": 50,
+            "width_mobile": "custom",
+            "custom_width_mobile": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
+              "settings": {
+                "label": "Send Message",
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        }
+      },
+      "block_order": ["contact_form"],
+      "name": "Contact form",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 16,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main", "form"]
+}

@@ -1,0 +1,279 @@
+
+{% if section.blocks.size > 1 %}
+  {% assign autoplay_enabled = section.settings.autoplay %}
+{% else %}
+  {% assign autoplay_enabled = false %}
+{% endif %}
+
+{% capture controls %}
+  {%- render 'slideshow-controls',
+    style: section.settings.pagination_style,
+    autoplay: autoplay_enabled,
+    item_count: section.blocks.size,
+    show_arrows: false,
+    arrows_on_media: false,
+    controls_on_media: true,
+    pagination_position: 'center',
+    icon_style: 'chevron',
+    class: 'hero-banner__controls'
+  -%}
+{% endcapture %}
+
+{% capture slides %}
+  {% for block in section.blocks %}
+    {% assign block_index = forloop.index0 %}
+    {% if block.type == 'main_slide' %}
+      {% render 'hero-main-slide', block: block, section: section, block_index: block_index %}
+    {% else %}
+      {% capture slide_content %}
+        {% render 'hero-influencer-slide', block: block %}
+      {% endcapture %}
+      {% render 'slideshow-slide',
+        index: block_index,
+        children: slide_content,
+        slide_size: section.settings.slide_height,
+        navigate_to_slide: false
+      %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+<div
+  class="hero-slider-section hero-banner-section section disable-section-top-offset"
+  id="hero-slider-{{ section.id }}"
+  data-influencer-section
+  data-hero-height="{{ section.settings.slide_height }}"
+>
+  <div class="hero-banner__frame">
+    {% render 'slideshow',
+      class: 'hero-banner',
+      controls: controls,
+      show_arrows: section.settings.show_arrows,
+      icon_style: 'chevron',
+      icon_shape: 'circle',
+      arrows_position: 'center',
+      autoplay: autoplay_enabled,
+      autoplay_speed: section.settings.autoplay_speed,
+      slides: slides,
+      slide_count: section.blocks.size,
+      slide_size: section.settings.slide_height,
+      slide_position: 'stretch'
+    %}
+
+    <div class="hero-banner__pride-bar" aria-hidden="true"></div>
+  </div>
+
+  {% render 'influencer-video-modal', section: section %}
+</div>
+
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+{{ 'home-influencer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hero-banner.js' | asset_url }}" type="module" fetchpriority="low"></script>
+<script src="{{ 'home-influencer.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+{% schema %}
+{
+  "name": "Hero + influencer slides",
+  "tag": "section",
+  "class": "hero-slider-wrapper disable-section-top-offset",
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "main_slide",
+      "name": "Main hero slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_logo",
+          "label": "Show center logo",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Center logo",
+          "info": "Uses theme logo if empty"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "New Collection"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shine With Pride"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Authentic style. Unapologetic you."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "toggle_overlay",
+          "label": "Show overlay",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            { "value": "top", "label": "Top" },
+            { "value": "center", "label": "Center" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "bottom"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "influencer_slide",
+      "name": "Influencer video slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Influencer photo"
+        },
+        {
+          "type": "image_picker",
+          "id": "preview_image",
+          "label": "Slide background image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Influencer Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Watch my honest review of ShineWpride — quality, fit, and why I love wearing it."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Review video"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (YouTube or MP4)",
+          "info": "Used if no Shopify video uploaded"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "slide_height",
+      "label": "Slide height",
+      "options": [
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Auto-rotate speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination",
+      "options": [
+        { "value": "dots", "label": "Dots" },
+        { "value": "counter", "label": "Counter" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "dots"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero + influencer slides",
+      "category": "Banners",
+      "blocks": [
+        {
+          "type": "main_slide",
+          "settings": {
+            "eyebrow": "New Collection",
+            "heading": "Shine With Pride",
+            "subheading": "Authentic style. Unapologetic you.",
+            "button_label": "Shop now",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Alex Rivera",
+            "description": "The fabric quality is incredible — soft, bold colors, and the fit is perfect for everyday wear."
+          }
+        },
+        {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Jordan Kim",
+            "description": "I've tried a lot of pride merch — ShineWpride is the one I actually reach for every day."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

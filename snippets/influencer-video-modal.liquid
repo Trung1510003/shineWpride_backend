@@ -1,0 +1,21 @@
+{%- doc -%}
+  Video popup modal for influencer review slides.
+  @param {object} section - Section containing influencer blocks
+{%- enddoc -%}
+
+<dialog class="influencer-modal" id="influencer-modal-{{ section.id }}" aria-label="Influencer video review">
+  <div class="influencer-modal__inner">
+    <button type="button" class="influencer-modal__close" data-influencer-close aria-label="Close">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="influencer-modal__body">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'influencer' or block.type == 'influencer_slide' or block.type == 'review' -%}
+          <div class="influencer-modal__panel" data-influencer-panel="{{ block.id }}" hidden>
+            {% render 'influencer-video-player', block: block %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</dialog>

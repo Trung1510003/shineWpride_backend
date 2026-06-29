@@ -1,0 +1,99 @@
+{%- doc -%}
+  Email discount popup — shows after page load with newsletter signup + discount code.
+{%- enddoc -%}
+
+{%- if settings.email_popup_enabled and template.name != 'password' and request.design_mode == false -%}
+  {{ 'email-popup.css' | asset_url | stylesheet_tag }}
+
+  <email-discount-popup
+    data-enabled="true"
+    data-delay="{{ settings.email_popup_delay | default: 2 | times: 1000 }}"
+    data-frequency-days="{{ settings.email_popup_frequency_days | default: 7 }}"
+    data-discount-code="{{ settings.email_popup_discount_code | escape }}"
+    data-error-message="{{ settings.email_popup_error_message | escape }}"
+  >
+    <div
+      class="email-popup"
+      data-email-popup-overlay
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="EmailPopupHeading"
+    >
+      <div class="email-popup__dialog" data-email-popup-dialog>
+        <button type="button" class="email-popup__close" data-email-popup-close aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        </button>
+
+        <div class="email-popup__content">
+          {%- if settings.email_popup_badge != blank -%}
+            <span class="email-popup__badge">{{ settings.email_popup_badge }}</span>
+          {%- endif -%}
+
+          <div data-email-popup-form-wrap>
+            <h2 class="email-popup__heading" id="EmailPopupHeading">{{ settings.email_popup_heading }}</h2>
+            {%- if settings.email_popup_text != blank -%}
+              <p class="email-popup__text">{{ settings.email_popup_text }}</p>
+            {%- endif -%}
+
+            <form class="email-popup__form" data-email-popup-form action="{{ routes.root_url }}contact" method="post">
+              <input type="hidden" name="form_type" value="customer">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="contact[tags]" value="newsletter,popup-discount">
+              <label class="visually-hidden" for="EmailPopupEmail">Email</label>
+              <input
+                id="EmailPopupEmail"
+                class="email-popup__input"
+                type="email"
+                name="contact[email]"
+                placeholder="{{ settings.email_popup_placeholder }}"
+                required
+                autocomplete="email"
+              >
+              <button type="submit" class="email-popup__submit">
+                {{ settings.email_popup_button_label }}
+              </button>
+            </form>
+
+            <p class="email-popup__message email-popup__message--error" data-email-popup-message hidden></p>
+
+            <button type="button" class="email-popup__decline" data-email-popup-decline>
+              {{ settings.email_popup_decline_label }}
+            </button>
+          </div>
+
+          <div data-email-popup-success hidden>
+            <h2 class="email-popup__heading">{{ settings.email_popup_success_heading }}</h2>
+            {%- if settings.email_popup_success_text != blank -%}
+              <p class="email-popup__text">{{ settings.email_popup_success_text }}</p>
+            {%- endif -%}
+
+            {%- if settings.email_popup_discount_code != blank -%}
+              <div class="email-popup__code-box">
+                <span class="email-popup__code">{{ settings.email_popup_discount_code }}</span>
+                <button
+                  type="button"
+                  class="email-popup__copy"
+                  data-email-popup-copy
+                  data-copied-label="{{ settings.email_popup_copied_label | default: 'Copied!' }}"
+                >
+                  {{ settings.email_popup_copy_label | default: 'Copy' }}
+                </button>
+              </div>
+            {%- endif -%}
+
+            <button type="button" class="email-popup__submit" data-email-popup-close>
+              {{ settings.email_popup_continue_label }}
+            </button>
+          </div>
+
+          {%- if settings.email_popup_fine_print != blank -%}
+            <p class="email-popup__fine-print">{{ settings.email_popup_fine_print }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </email-discount-popup>
+
+  <script type="module" src="{{ 'email-popup.js' | asset_url }}" fetchpriority="low"></script>
+{%- endif -%}

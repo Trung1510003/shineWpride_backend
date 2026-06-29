@@ -1,0 +1,252 @@
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+{{ 'home-influencer.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign slide_count = section.blocks.size | plus: 1
+  assign autoplay_enabled = false
+  if section.settings.autoplay and slide_count > 1
+    assign autoplay_enabled = true
+  endif
+-%}
+
+{% capture controls %}
+  {%- render 'slideshow-controls',
+    style: section.settings.pagination_style,
+    autoplay: autoplay_enabled,
+    item_count: slide_count,
+    show_arrows: false,
+    arrows_on_media: false,
+    controls_on_media: true,
+    pagination_position: 'center',
+    icon_style: 'chevron',
+    class: 'am-hero-slider__controls'
+  -%}
+{% endcapture %}
+
+{% capture slides %}
+  {% capture artistry_slide %}
+    {% render 'am-hero-slide-content', section: section %}
+  {% endcapture %}
+  {% render 'slideshow-slide',
+    index: 0,
+    children: artistry_slide,
+    navigate_to_slide: false
+  %}
+
+  {% for block in section.blocks %}
+    {% if block.type == 'influencer_slide' %}
+      {% capture slide_content %}
+        {% render 'hero-influencer-slide', block: block %}
+      {% endcapture %}
+      {% render 'slideshow-slide',
+        index: forloop.index,
+        children: slide_content,
+        navigate_to_slide: false
+      %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+<div
+  class="am-hero-slider-section disable-section-top-offset"
+  id="am-hero-slider-{{ section.id }}"
+  data-influencer-section
+>
+  <div class="am-hero-slider__frame">
+    {% render 'slideshow',
+      class: 'am-hero-slider',
+      controls: controls,
+      show_arrows: section.settings.show_arrows,
+      icon_style: 'chevron',
+      icon_shape: 'circle',
+      arrows_position: 'center',
+      autoplay: autoplay_enabled,
+      autoplay_speed: section.settings.autoplay_speed,
+      slides: slides,
+      slide_count: slide_count,
+      slide_position: 'stretch'
+    %}
+  </div>
+
+  {% render 'influencer-video-modal', section: section %}
+</div>
+
+<script src="{{ 'home-influencer.js' | asset_url }}" type="module" fetchpriority="low"></script>
+<script src="{{ 'am-hero-slider.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+{% schema %}
+{
+  "name": "Artistry hero slider",
+  "tag": "section",
+  "class": "am-hero-section disable-section-top-offset",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero slide"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Curated designs by creative minds"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (before logo)",
+      "default": "Express Yourself With"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_logo",
+      "label": "Heading logo",
+      "info": "Replaces highlighted text. Uses theme logo if empty."
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Heading highlight (fallback text)",
+      "info": "Shown only if no logo is set"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover thousands of unique designs on merchandise. From apparel to home decor, find the perfect way to showcase your style."
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Start Shopping"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "View Collections"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Auto-rotate speed",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 7
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination",
+      "options": [
+        { "value": "dots", "label": "Dots" },
+        { "value": "counter", "label": "Counter" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "dots"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "influencer_slide",
+      "name": "Influencer video slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Influencer photo"
+        },
+        {
+          "type": "image_picker",
+          "id": "preview_image",
+          "label": "Slide background image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Influencer Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Watch my honest review of ShineW Pride — quality, fit, and why I love wearing it."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Review video"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (YouTube or MP4)",
+          "info": "Used if no Shopify video uploaded"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artistry hero slider",
+      "category": "Banners",
+      "blocks": [
+        {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Emma Chamberlain",
+            "description": "Everyday style, real talk — see how I build outfits that feel authentic and bold.",
+            "video_url": "https://www.youtube.com/watch?v=M0wpTx6kUPE"
+          }
+        },
+        {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Bretman Rock",
+            "description": "Loud, proud, and unapologetic — this is how I express myself through fashion.",
+            "video_url": "https://www.youtube.com/watch?v=NfSw1LAUiuY"
+          }
+        },
+        {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "James Charles",
+            "description": "From glam to streetwear — my take on standing out and owning your look.",
+            "video_url": "https://www.youtube.com/watch?v=sW_1fB9AwE0"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

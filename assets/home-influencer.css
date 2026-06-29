@@ -1,0 +1,483 @@
+/* Hero slider + influencer slides */
+
+:root {
+  --rb-content-max: 90rem;
+  --rb-page-padding: 1.5rem;
+  --rb-widget-gap: 1rem;
+  --rb-section-heading-size: 1.375rem;
+  --rb-section-heading-weight: 700;
+  --rb-section-heading-tracking: -0.01em;
+  --rb-section-heading-color: #111;
+  --rb-section-heading-line-height: 1.2;
+  --rb-section-heading-margin-bottom: 1.25rem;
+}
+
+@media screen and (min-width: 48rem) {
+  :root {
+    --rb-page-padding: 2rem;
+    --rb-widget-gap: 1.125rem;
+  }
+}
+
+@media screen and (min-width: 75rem) {
+  :root {
+    --rb-page-padding: 3rem;
+  }
+}
+
+.hero-slider-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider-section .hero-banner {
+  --slideshow-gap: 0;
+}
+
+/* Slide height is controlled by hero-banner.css via data-hero-height on .hero-slider-section */
+
+/* Influencer slide in hero carousel */
+.hero-slider__influencer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: grid;
+  grid-template: 'stack' 1fr / 1fr;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+}
+
+.hero-slider__influencer-bg {
+  grid-area: stack;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__influencer-bg img,
+.hero-slider__influencer-bg .hero-slider__thumb-img,
+.hero-slider__influencer-bg .influencer-review-card__thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: inherit;
+}
+
+.hero-slider__influencer-placeholder {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.hero-slider__influencer-overlay {
+  grid-area: stack;
+  background: linear-gradient(to top, rgb(0 0 0 / 75%) 0%, rgb(0 0 0 / 25%) 55%, rgb(0 0 0 / 15%) 100%);
+}
+
+.hero-slider__influencer-content {
+  grid-area: stack;
+  z-index: 1;
+  align-self: end;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  max-width: 640px;
+}
+
+.hero-slider__avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #fff;
+  background: #333;
+}
+
+.hero-slider__avatar img,
+.hero-slider__avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-slider__avatar-placeholder {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.hero-slider__influencer-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-slider__influencer-name {
+  margin: 0 0 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.hero-slider__influencer-desc {
+  margin: 0 0 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-slider__play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hero-slider__play-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--rb-red, #e41e31);
+}
+
+.hero-slider__play-icon svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+}
+
+/* Influencer reviews row */
+.influencer-reviews-section {
+  background: #fafafa;
+}
+
+.influencer-reviews {
+  padding-block: 2rem;
+}
+
+.influencer-reviews__heading {
+  margin: 0 0 var(--rb-section-heading-margin-bottom);
+  padding-inline: 0;
+}
+
+.influencer-reviews__track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--rb-widget-gap);
+  padding-inline: 0;
+  padding-block-end: 0;
+}
+
+@media screen and (min-width: 48rem) {
+  .influencer-reviews__track {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 47.99rem) {
+  .influencer-reviews__track {
+    display: flex;
+    gap: var(--rb-widget-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--rb-page-padding);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-block-end: 0.25rem;
+  }
+
+  .influencer-reviews__track::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.influencer-review-card {
+  width: 100%;
+  border: none;
+  padding: 0;
+  background: #fff;
+  border-radius: var(--rb-radius, 0.75rem);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media screen and (max-width: 47.99rem) {
+  .influencer-review-card {
+    flex: 0 0 min(85%, 20rem);
+    scroll-snap-align: center;
+  }
+}
+
+.influencer-review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 14%);
+}
+
+.influencer-review-card__thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.influencer-review-card__thumb .influencer-review-card__thumb-img,
+.influencer-review-card__thumb .influencer-review-card__thumb-placeholder {
+  position: absolute;
+  inset: 0;
+}
+
+.influencer-review-card__thumb-img,
+.hero-slider__influencer-bg .hero-slider__thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.influencer-review-card:hover .influencer-review-card__thumb-img,
+.hero-slider__influencer:hover .hero-slider__influencer-bg img {
+  transform: scale(1.04);
+}
+
+.influencer-review-card__thumb-placeholder,
+.hero-slider__influencer-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  background: linear-gradient(135deg, #434343, #111);
+}
+
+.influencer-review-card__video-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgb(0 0 0 / 65%);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.influencer-review-card__avatar-img,
+.hero-slider__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.influencer-review-card__play-badge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 25%);
+}
+
+.influencer-review-card__play-badge span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 92%);
+  color: #111;
+}
+
+.influencer-review-card__body {
+  padding: 0.875rem 1rem 1rem;
+}
+
+.influencer-review-card__profile {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-block-end: 0.5rem;
+}
+
+.influencer-review-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.influencer-review-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.influencer-review-card__name {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.influencer-review-card__handle {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.influencer-review-card__quote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #444;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Video modal — fullscreen */
+.influencer-modal {
+  padding: 0;
+  border: none;
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100dvh;
+  background: #000;
+  overflow: hidden;
+}
+
+.influencer-modal::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+
+.influencer-modal__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  top: auto;
+  transform: none;
+}
+
+.influencer-modal__close {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: max(12px, env(safe-area-inset-right, 12px));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 55%);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.influencer-modal__close:hover {
+  background: rgb(0 0 0 / 75%);
+}
+
+.influencer-modal__body {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.influencer-modal__panel[hidden] {
+  display: none !important;
+}
+
+.influencer-modal__panel:not([hidden]) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.influencer-modal__embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.influencer-modal__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  background: #000;
+  object-fit: contain;
+}
+
+.influencer-modal__iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 56.25vw;
+  max-width: 100%;
+  min-height: 100%;
+  min-width: 0;
+  transform: translate(-50%, -50%);
+  display: block;
+  border: none;
+  background: #000;
+}
+
+/* ── Responsive: hero influencer slides + reviews row ── */
+@media screen and (max-width: 749px) {
+  .hero-slider__influencer-content {
+    padding-bottom: 4.5rem;
+    gap: 0.75rem;
+  }
+
+  .hero-slider__avatar {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .influencer-review-card:hover {
+    transform: none;
+  }
+}

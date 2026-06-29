@@ -1,0 +1,63 @@
+{%- doc -%}
+  Demo product grid using theme assets from /tee folder.
+  Edit titles, prices, and images here until real Shopify products are created.
+{%- enddoc -%}
+
+{%- liquid
+  assign columns = section.settings.columns | default: 4
+  assign mobile_columns = section.settings.mobile_columns | default: '2'
+  assign columns_gap = section.settings.columns_gap | default: 12
+  assign rows_gap = section.settings.rows_gap | default: 32
+
+  assign preview_items = 'Sand|sand,Charcoal|charcoal,Black|black,White|white' | split: ','
+-%}
+
+<div
+  class="resource-list resource-list--grid preview-products-grid"
+  style="
+    --resource-list-column-gap-desktop: {{ columns_gap }}px;
+    --resource-list-row-gap-desktop: {{ rows_gap }}px;
+    --resource-list-columns: repeat({{ columns }}, 1fr);
+    --resource-list-columns-mobile: repeat({{ mobile_columns }}, 1fr);
+    --column-count-mobile: {{ mobile_columns }};
+  "
+  data-testid="preview-products-grid"
+>
+  {%- for item in preview_items -%}
+    {%- liquid
+      assign parts = item | split: '|'
+      assign color_name = parts[0]
+      assign asset_suffix = parts[1]
+      assign product_title = 'Shine Pride Tee — ' | append: color_name
+      assign asset_name = 'tee-' | append: asset_suffix | append: '.jpg'
+    -%}
+    <div class="resource-list__item">
+      <product-card class="product-card preview-product-card">
+        <a href="{{ routes.root_url }}#new-arrivals" class="product-card__link">
+          <span class="visually-hidden">{{ product_title }}</span>
+        </a>
+        <div class="product-card__content layout-panel-flex layout-panel-flex--column product-grid__card spacing-style gap-style">
+          <div class="card-gallery preview-product-card__media">
+            <img
+              src="{{ asset_name | asset_url }}"
+              alt="{{ product_title }}"
+              loading="lazy"
+              width="1200"
+              height="1200"
+            >
+          </div>
+          <div class="text-block rte">
+            <p role="heading" aria-level="3">
+              <a href="{{ routes.root_url }}#new-arrivals">{{ product_title }}</a>
+            </p>
+          </div>
+          <div class="text-block h6 preview-product-card__price">$20.00</div>
+        </div>
+      </product-card>
+    </div>
+  {%- endfor -%}
+</div>
+
+<p class="preview-products-note">
+  Preview products — upload real products in Shopify Admin when ready.
+</p>

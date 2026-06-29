@@ -1,0 +1,131 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+
+<section class="home-new-arrivals rb-section" id="new-arrivals">
+  <div class="rb-section__header">
+    <h2 class="rb-section__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ section.settings.link_url | default: routes.all_products_collection_url }}" class="rb-section__link">
+        {{ section.settings.link_label }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign col = block.settings.collection
+      assign col_title = block.settings.title
+      if col_title == blank and col != blank
+        assign col_title = col.title
+      endif
+      if col_title == blank
+        assign col_title = 'New Arrivals'
+      endif
+      assign col_url = col.url | default: routes.all_products_collection_url
+    -%}
+    <div class="home-new-arrivals__row" {{ block.shopify_attributes }}>
+      {%- if section.blocks.size > 1 -%}
+        <h3 class="home-new-arrivals__row-title">{{ col_title }}</h3>
+      {%- endif -%}
+      {%- if col != blank and col.products_count > 0 -%}
+        {% render 'rb-product-grid', products: col.products, limit: section.settings.max_products %}
+      {%- else -%}
+        {% render 'rb-product-grid', limit: section.settings.max_products %}
+      {%- endif -%}
+      <div class="home-new-arrivals__row-footer">
+        <a href="{{ col_url }}" class="rb-section__link">{{ section.settings.row_link_label }}</a>
+      </div>
+    </div>
+  {%- endfor -%}
+</section>
+
+{% stylesheet %}
+  .home-new-arrivals__row + .home-new-arrivals__row {
+    margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+    padding-block-start: clamp(1.5rem, 3vw, 2.5rem);
+    border-block-start: 1px solid #f0f0f0;
+  }
+
+  .home-new-arrivals__row-title {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .home-new-arrivals__row-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-block-start: 0.75rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "New arrival collections",
+  "tag": "section",
+  "class": "home-new-arrivals-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "New Arrival Collections"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link URL"
+    },
+    {
+      "type": "text",
+      "id": "row_link_label",
+      "label": "Row link label",
+      "default": "Shop collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Products per collection",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "New arrival collections",
+      "category": "Products",
+      "blocks": [
+        { "type": "collection", "settings": { "title": "Just Dropped" } },
+        { "type": "collection", "settings": { "title": "Trending Now" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

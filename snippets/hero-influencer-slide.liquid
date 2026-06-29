@@ -1,0 +1,43 @@
+{%- doc -%}
+  Influencer teaser slide for hero carousel. Opens video modal on click.
+{%- enddoc -%}
+
+<button
+  type="button"
+  class="hero-slider__influencer"
+  data-influencer-open="{{ block.id }}"
+  aria-label="Watch review by {{ block.settings.name | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="hero-slider__influencer-bg">
+    {% render 'influencer-video-thumb',
+      block: block,
+      class_prefix: 'hero-slider',
+      sizes: '100vw'
+    %}
+  </div>
+  <div class="hero-slider__influencer-overlay" aria-hidden="true"></div>
+  <div class="hero-slider__influencer-content">
+    <div class="hero-slider__avatar">
+      {%- if block.settings.avatar != blank -%}
+        {{ block.settings.avatar | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128', sizes: '64px' }}
+      {%- else -%}
+        {% render 'influencer-video-thumb', block: block, class_prefix: 'hero-slider', as_avatar: true %}
+      {%- endif -%}
+    </div>
+    <div class="hero-slider__influencer-text">
+      {%- if block.settings.name != blank -%}
+        <p class="hero-slider__influencer-name">{{ block.settings.name }}</p>
+      {%- endif -%}
+      {%- if block.settings.description != blank -%}
+        <p class="hero-slider__influencer-desc">{{ block.settings.description }}</p>
+      {%- endif -%}
+      <span class="hero-slider__play">
+        <span class="hero-slider__play-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        Watch review
+      </span>
+    </div>
+  </div>
+</button>

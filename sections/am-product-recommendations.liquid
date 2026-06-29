@@ -1,0 +1,109 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<script
+  src="{{ 'product-recommendations.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+<product-recommendations
+  id="am-product-rec-{{ section.id }}"
+  class="am-product-rec-section"
+  data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.max_products }}"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-intent="{{ section.settings.recommendation_type }}"
+  data-recommendations-performed="{{ recommendations.performed }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="am-product-rec rb-home-shell">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="am-product-rec__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if recommendations.performed or product == blank -%}
+      {%- liquid
+        if recommendations.performed and recommendations.products_count > 0
+          assign rec_products = recommendations.products
+        elsif section.settings.recommendation_type == 'related'
+          assign rec_products = collections.all.products | reject: 'id', product.id
+        else
+          assign rec_products = null
+        endif
+      -%}
+
+      {%- if rec_products != blank and rec_products.size > 0 -%}
+        <ul class="am-product-rec__grid" role="list">
+          {%- for rec_product in rec_products limit: section.settings.max_products -%}
+            {%- liquid
+              assign rec_category = rec_product.type
+              if rec_category == blank
+                assign rec_category = rec_product.vendor
+              endif
+            -%}
+            <li class="am-product-rec__item">
+              {% render 'am-product-card',
+                title: rec_product.title,
+                category: rec_category,
+                price: rec_product.price | money,
+                url: rec_product.url,
+                image: rec_product.featured_image,
+                show_badge: false
+              %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- else -%}
+      <ul class="am-product-rec__grid am-product-rec__grid--loading" role="list" aria-busy="true">
+        {%- for i in (1..section.settings.max_products) -%}
+          <li class="am-product-rec__skeleton" aria-hidden="true"></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</product-recommendations>
+
+{% schema %}
+{
+  "name": "Similar products",
+  "tag": "section",
+  "class": "am-product-rec-wrapper",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Similar Products"
+    },
+    {
+      "type": "select",
+      "id": "recommendation_type",
+      "label": "Recommendation type",
+      "options": [
+        { "value": "related", "label": "Related" },
+        { "value": "complementary", "label": "Complementary" }
+      ],
+      "default": "related"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Similar products"
+    }
+  ]
+}
+{% endschema %}

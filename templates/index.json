@@ -1,0 +1,148 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "home_hero": {
+      "type": "home-hero-artistry-slider",
+      "blocks": {
+        "influencer_1": {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Emma Chamberlain",
+            "description": "Everyday style, real talk — see how I build outfits that feel authentic and bold.",
+            "video_url": "https://www.youtube.com/watch?v=M0wpTx6kUPE"
+          }
+        },
+        "influencer_2": {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "Bretman Rock",
+            "description": "Loud, proud, and unapologetic — this is how I express myself through fashion.",
+            "video_url": "https://www.youtube.com/watch?v=NfSw1LAUiuY"
+          }
+        },
+        "influencer_3": {
+          "type": "influencer_slide",
+          "settings": {
+            "name": "James Charles",
+            "description": "From glam to streetwear — my take on standing out and owning your look.",
+            "video_url": "https://www.youtube.com/watch?v=sW_1fB9AwE0"
+          }
+        }
+      },
+      "block_order": ["influencer_1", "influencer_2", "influencer_3"],
+      "settings": {
+        "eyebrow": "Curated designs by creative minds",
+        "heading": "Express Yourself With",
+        "heading_highlight": "",
+        "subheading": "Discover thousands of unique designs on merchandise. From apparel to home decor, find the perfect way to showcase your style.",
+        "primary_button_label": "Start Shopping",
+        "primary_button_link": "shopify://collections/all",
+        "secondary_button_label": "View Collections",
+        "secondary_button_link": "shopify://collections",
+        "autoplay": true,
+        "autoplay_speed": 7,
+        "show_arrows": true,
+        "pagination_style": "dots"
+      }
+    },
+    "home_value_props": {
+      "type": "home-value-props",
+      "blocks": {
+        "prop_1": {
+          "type": "prop",
+          "settings": {
+            "icon": "palette",
+            "title": "Premium Quality",
+            "text": "High-quality prints and materials that last"
+          }
+        },
+        "prop_2": {
+          "type": "prop",
+          "settings": {
+            "icon": "star",
+            "title": "Artists First",
+            "text": "Support independent creators and designers"
+          }
+        },
+        "prop_3": {
+          "type": "prop",
+          "settings": {
+            "icon": "sparkles",
+            "title": "Unique Designs",
+            "text": "Exclusive designs you won't find anywhere else"
+          }
+        }
+      },
+      "block_order": ["prop_1", "prop_2", "prop_3"],
+      "settings": {}
+    },
+    "home_featured": {
+      "type": "home-featured-products",
+      "settings": {
+        "heading": "Featured Collection",
+        "subheading": "Check out our most popular designs",
+        "link_label": "View All",
+        "link_label_mobile": "View All Products",
+        "link_url": "shopify://collections/all",
+        "max_products": 6
+      }
+    },
+    "home_cta": {
+      "type": "home-custom-design-cta",
+      "settings": {
+        "heading": "Create Your Custom Design",
+        "text": "Can't find what you're looking for? Design your own custom merchandise and share it with the world.",
+        "button_label": "Start Designing",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "home_testimonials": {
+      "type": "home-testimonials",
+      "blocks": {
+        "test_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The quality is amazing and the design came out perfect. I'm so impressed with my purchase!",
+            "author": "Customer 1",
+            "subtitle": "Verified Buyer"
+          }
+        },
+        "test_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The quality is amazing and the design came out perfect. I'm so impressed with my purchase!",
+            "author": "Customer 2",
+            "subtitle": "Verified Buyer"
+          }
+        },
+        "test_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The quality is amazing and the design came out perfect. I'm so impressed with my purchase!",
+            "author": "Customer 3",
+            "subtitle": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": ["test_1", "test_2", "test_3"],
+      "settings": {
+        "heading": "Loved by Artists & Customers"
+      }
+    }
+  },
+  "order": [
+    "home_hero",
+    "home_value_props",
+    "home_featured",
+    "home_cta",
+    "home_testimonials"
+  ]
+}

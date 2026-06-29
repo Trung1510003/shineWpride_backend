@@ -1,0 +1,438 @@
+/* Gymshark-style header overrides */
+
+:root {
+  --gymshark-red: #e02020;
+  --gymshark-header-height: 56px;
+  --gymshark-icon-size: 20px;
+  --gymshark-action-size: 44px;
+  --pride-gradient: linear-gradient(
+    90deg,
+    #e40303 0%,
+    #ff8c00 17%,
+    #ffed00 33%,
+    #008026 50%,
+    #24408e 67%,
+    #732982 83%,
+    #e40303 100%
+  );
+}
+
+/* ── Announcement bar – LGBT pride rainbow ── */
+.announcement-bar.gymshark-announcement-bar,
+.announcement-bar.gymshark-announcement-bar.color-scheme-1,
+.announcement-bar.gymshark-announcement-bar[class*='color-scheme'] {
+  position: relative;
+  background: var(--pride-gradient) !important;
+  border-block-end: none;
+  padding-block: 10px;
+}
+
+.announcement-bar.gymshark-announcement-bar .section-background,
+.announcement-bar.gymshark-announcement-bar + .section-background,
+.shopify-section:has(.gymshark-announcement-bar) .section-background {
+  background: var(--pride-gradient) !important;
+}
+
+.announcement-bar.gymshark-announcement-bar .announcement-bar__slider {
+  width: 100%;
+  justify-content: center;
+}
+
+.announcement-bar.gymshark-announcement-bar .announcement-bar__slides {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 16px;
+}
+
+.announcement-bar.gymshark-announcement-bar .announcement-bar__text {
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+}
+
+.announcement-bar.gymshark-announcement-bar .announcement-bar__text a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+}
+
+/* ── Main navigation bar ── */
+#header-component.gymshark-header {
+  --header-padding: 0px;
+}
+
+#header-component.gymshark-header .header__row--top {
+  border-bottom: none;
+}
+
+#header-component.gymshark-header .header__row--top .header__columns {
+  --padding-block-start: 0px;
+  --padding-block-end: 0px;
+  min-height: var(--gymshark-header-height);
+  align-items: center;
+  padding-inline: 24px;
+}
+
+#header-component.gymshark-header .header__column--left {
+  gap: 0;
+  flex: 1;
+  align-items: center;
+}
+
+#header-component.gymshark-header .header__column--center {
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+#header-component.gymshark-header .header__column--right {
+  gap: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Logo centered, bold text fallback */
+#header-component.gymshark-header .header-logo {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+#header-component.gymshark-header .header-logo__image {
+  max-height: 28px;
+  width: auto;
+}
+
+/* Menu links – left aligned, clean sans-serif */
+#header-component.gymshark-header .menu-list__link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #000000;
+  transition: color 0.22s ease;
+}
+
+#header-component.gymshark-header .menu-list__link--sale {
+  color: var(--gymshark-red);
+}
+
+#header-component.gymshark-header .menu-list__list {
+  gap: 0;
+}
+
+#header-component.gymshark-header .menu-list__link-title {
+  display: inline-block;
+  padding-inline: 14px;
+  transform-origin: center center;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease,
+    background-position 0.22s ease;
+}
+
+/* Dim non-hovered items when one is hovered */
+@media (hover: hover) {
+  #header-component.gymshark-header .menu-list:where(:has(.menu-list__list-item:hover)) .menu-list__list-item:not(:hover) .menu-list__link,
+  #header-component.gymshark-header .menu-list:where(:has(.menu-list__list-item:focus-within)) .menu-list__list-item:not(:focus-within) .menu-list__link {
+    color: rgb(0 0 0 / 40%);
+  }
+
+  #header-component.gymshark-header .menu-list:where(:has(.menu-list__list-item:hover)) .menu-list__list-item:not(:hover) .menu-list__link--sale,
+  #header-component.gymshark-header .menu-list:where(:has(.menu-list__list-item:focus-within)) .menu-list__list-item:not(:focus-within) .menu-list__link--sale {
+    color: rgb(224 32 32 / 40%);
+  }
+
+  /* Hover: scale up + rainbow text */
+  #header-component.gymshark-header .menu-list__list-item:hover .menu-list__link-title,
+  #header-component.gymshark-header .menu-list__list-item:focus-within .menu-list__link-title {
+    transform: scale(1.18);
+    background: var(--pride-gradient);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: gymshark-pride-text 2.5s linear infinite;
+  }
+
+  #header-component.gymshark-header .menu-list__list-item:hover .menu-list__link,
+  #header-component.gymshark-header .menu-list__list-item:focus-within .menu-list__link,
+  #header-component.gymshark-header .menu-list__list-item:hover .menu-list__link--sale,
+  #header-component.gymshark-header .menu-list__list-item:focus-within .menu-list__link--sale {
+    color: transparent;
+  }
+}
+
+@keyframes gymshark-pride-text {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ── Right-side icons – unified alignment ── */
+#header-component.gymshark-header .header__column--right .search-action,
+#header-component.gymshark-header header-actions,
+#header-component.gymshark-header cart-drawer-component {
+  display: flex;
+  align-items: center;
+  margin-inline: 0 !important;
+}
+
+#header-component.gymshark-header header-actions {
+  gap: 0;
+}
+
+#header-component.gymshark-header .header-actions__action,
+#header-component.gymshark-header .search-action .header-actions__action,
+#header-component.gymshark-header .account-button,
+#header-component.gymshark-header cart-drawer-component .header-actions__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gymshark-action-size);
+  height: var(--gymshark-header-height);
+  min-height: var(--gymshark-header-height);
+  padding: 0;
+  margin: 0;
+  color: #000000;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#header-component.gymshark-header .header-actions__action .svg-wrapper,
+#header-component.gymshark-header .search-action .svg-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gymshark-icon-size) !important;
+  height: var(--gymshark-icon-size) !important;
+}
+
+#header-component.gymshark-header .header-actions__action svg,
+#header-component.gymshark-header .search-action svg,
+#header-component.gymshark-header .account-button .svg-wrapper svg {
+  width: var(--gymshark-icon-size);
+  height: var(--gymshark-icon-size);
+  display: block;
+}
+
+#header-component.gymshark-header .account-button {
+  background: transparent;
+}
+
+#header-component.gymshark-header shopify-account:not(:defined),
+#header-component.gymshark-header shopify-account {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gymshark-action-size);
+  height: var(--gymshark-header-height);
+  min-width: var(--gymshark-action-size);
+  min-height: auto;
+  line-height: 1;
+}
+
+#header-component.gymshark-header .account-button [slot='signed-out-avatar'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#header-component.gymshark-header .account-button__icon {
+  display: block;
+  width: var(--gymshark-icon-size);
+  height: var(--gymshark-icon-size);
+}
+
+#header-component.gymshark-header .account-button__fallback {
+  width: var(--gymshark-icon-size);
+  height: var(--gymshark-icon-size);
+}
+
+#header-component.gymshark-header .header-actions__cart-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#header-component.gymshark-header .header-actions__cart-icon .svg-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide localization selector */
+#header-component.gymshark-header .dropdown-localization {
+  display: none !important;
+}
+
+/* ── Mobile: hamburger left | logo center | icons right ── */
+@media screen and (max-width: 749px) {
+  :root {
+    --gymshark-header-height: 48px;
+    --gymshark-mobile-left-width: calc(var(--gymshark-action-size) * 2);
+  }
+
+  #header-component.gymshark-header .header__row--top .header__columns,
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__columns {
+    --header-template-columns: var(--gymshark-mobile-left-width) 1fr auto;
+    grid-template-columns: var(--gymshark-mobile-left-width) 1fr auto;
+    grid-template-areas: 'left center right';
+    column-gap: 0;
+    padding-inline: 8px 12px;
+    min-height: var(--gymshark-header-height);
+  }
+
+  /* Keep columns as flex containers instead of display:contents */
+  #header-component.gymshark-header .header__column--left,
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--left {
+    display: flex !important;
+    grid-area: left;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    width: var(--gymshark-mobile-left-width);
+    min-width: var(--gymshark-mobile-left-width);
+    flex-shrink: 0;
+  }
+
+  #header-component.gymshark-header .header__column--center,
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--center {
+    display: flex !important;
+    grid-area: center;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #header-component.gymshark-header .header-logo {
+    font-size: clamp(0.875rem, 3.8vw, 1.25rem);
+    max-width: 100%;
+  }
+
+  #header-component.gymshark-header .header-logo__image {
+    max-height: 24px;
+  }
+
+  #header-component.gymshark-header .header__column--right,
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--right {
+    display: flex !important;
+    grid-area: right;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    width: auto;
+    flex-shrink: 0;
+    gap: 0;
+  }
+
+  /* Hide desktop menu on mobile */
+  #header-component.gymshark-header .header-menu {
+    display: none !important;
+  }
+
+  /* Show hamburger drawer */
+  #header-component.gymshark-header .header__drawer {
+    display: flex;
+    align-items: center;
+    min-height: var(--gymshark-header-height);
+  }
+
+  #header-component.gymshark-header .menu-drawer-container .header__icon--summary {
+    padding: 0;
+    width: var(--gymshark-action-size);
+    height: var(--gymshark-header-height);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #header-component.gymshark-header .header__icon--summary .header-drawer-icon {
+    width: var(--gymshark-icon-size);
+    height: var(--gymshark-icon-size);
+  }
+
+  /* All icons stay in right column, same size */
+  #header-component.gymshark-header .header-actions__action,
+  #header-component.gymshark-header .search-action .header-actions__action,
+  #header-component.gymshark-header .account-button,
+  #header-component.gymshark-header cart-drawer-component .header-actions__action {
+    width: 32px;
+    min-width: 32px;
+    height: var(--gymshark-header-height);
+    min-height: var(--gymshark-header-height);
+  }
+
+  #header-component.gymshark-header shopify-account:not(:defined),
+  #header-component.gymshark-header shopify-account {
+    width: 32px;
+    min-width: 32px;
+  }
+
+  .announcement-bar.gymshark-announcement-bar .announcement-bar__slides {
+    padding-inline: 16px;
+  }
+}
+
+/* Touch / drawer mode on wider screens (tablet) */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__row--top .header__columns {
+    --header-template-columns: calc(var(--gymshark-action-size) * 2) 1fr auto;
+    grid-template-columns: calc(var(--gymshark-action-size) * 2) 1fr auto;
+    grid-template-areas: 'left center right';
+    column-gap: 0;
+    padding-inline: 16px 24px;
+  }
+
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--left {
+    display: flex !important;
+    grid-area: left;
+    align-items: center;
+    width: calc(var(--gymshark-action-size) * 2);
+    min-width: calc(var(--gymshark-action-size) * 2);
+    flex-shrink: 0;
+  }
+
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--center {
+    display: flex !important;
+    grid-area: center;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__column--right {
+    display: flex !important;
+    grid-area: right;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+  }
+
+  #header-component.gymshark-header[data-menu-style='drawer'] .header-menu {
+    display: none !important;
+  }
+
+  #header-component.gymshark-header[data-menu-style='drawer'] .header__drawer {
+    display: flex;
+    align-items: center;
+  }
+}

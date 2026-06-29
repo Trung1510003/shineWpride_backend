@@ -1,0 +1,113 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'home-redbubble.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<div class="rb-artists rb-section">
+  <div class="rb-section__header">
+    <h2 class="rb-section__title">{{ section.settings.heading }}</h2>
+  </div>
+
+  <rb-scroll-nav class="rb-artists__scroll">
+    <div class="rb-scroll-nav rb-scroll-nav--prev">
+      <button class="rb-scroll-btn" data-rb-scroll-prev aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+    </div>
+    <div class="rb-artists__track" data-rb-scroll-track>
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link }}" class="rb-artist-card" {{ block.shopify_attributes }}>
+          <div class="rb-artist-card__avatar">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 200
+                | image_tag: loading: 'lazy', widths: '100, 150, 200', sizes: '100px'
+              }}
+            {%- else -%}
+              <div
+                class="rb-artist-card__placeholder"
+                style="--artist-color-1: {{ block.settings.color_1 }}; --artist-color-2: {{ block.settings.color_2 }};"
+              ></div>
+            {%- endif -%}
+          </div>
+          <span class="rb-artist-card__name">{{ block.settings.name }}</span>
+          <span class="rb-artist-card__cta">View Shop</span>
+        </a>
+      {%- endfor -%}
+    </div>
+    <div class="rb-scroll-nav rb-scroll-nav--next">
+      <button class="rb-scroll-btn" data-rb-scroll-next aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </rb-scroll-nav>
+</div>
+
+{% schema %}
+{
+  "name": "Featured artists",
+  "tag": "section",
+  "class": "rb-artists-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured artists"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "artist",
+      "name": "Artist",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Artist Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Shop link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Avatar"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Placeholder color 1",
+          "default": "#4facfe"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Placeholder color 2",
+          "default": "#00f2fe"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured artists",
+      "category": "Storytelling",
+      "blocks": [
+        { "type": "artist", "settings": { "name": "ShineWpride", "color_1": "#e40303", "color_2": "#ff8c00" } },
+        { "type": "artist", "settings": { "name": "ArtByAlex", "color_1": "#667eea", "color_2": "#764ba2" } },
+        { "type": "artist", "settings": { "name": "QueerThreads", "color_1": "#f093fb", "color_2": "#f5576c" } },
+        { "type": "artist", "settings": { "name": "PixelPride", "color_1": "#4facfe", "color_2": "#00f2fe" } },
+        { "type": "artist", "settings": { "name": "ColorWave", "color_1": "#43e97b", "color_2": "#38f9d7" } },
+        { "type": "artist", "settings": { "name": "BoldWear", "color_1": "#fa709a", "color_2": "#fee140" } },
+        { "type": "artist", "settings": { "name": "HappyArt", "color_1": "#a18cd1", "color_2": "#fbc2eb" } },
+        { "type": "artist", "settings": { "name": "FluidArt", "color_1": "#ff9a9e", "color_2": "#fecfef" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

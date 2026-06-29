@@ -1,0 +1,96 @@
+{%- doc -%}
+  Sidebar filters for the Artistry shop page — styled like Shop.tsx
+{%- enddoc -%}
+
+{%- liquid
+  assign sort_by = sort_by | default: collection.sort_by | default: collection.default_sort_by
+  assign filters = filters | default: collection.filters
+  assign results_url = results_url | default: collection.url
+-%}
+
+<div class="am-shop__filters-root" data-am-shop-filters>
+  <div class="am-shop__filters-backdrop" data-am-shop-close aria-hidden="true"></div>
+
+  <aside class="am-shop__sidebar" aria-label="{{ 'accessibility.filters' | t }}">
+    <facets-form-component
+      class="am-shop__facets-wrapper"
+      section-id="{{ section.id }}"
+      form-style="vertical"
+    >
+      <form
+        action="{{ results_url }}"
+        id="FacetFiltersForm--{{ section.id }}"
+        class="facets__form am-shop__facets-form"
+        ref="facetsForm"
+      >
+        <div class="am-shop__filters-mobile-header">
+          <h2 class="am-shop__filters-mobile-title">{{ 'content.filters' | t }}</h2>
+          <button
+            type="button"
+            class="am-shop__filters-close"
+            data-am-shop-close
+            aria-label="{{ 'actions.close' | t }}"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        {%- if filters.size > 0 -%}
+          <div class="am-shop__filter-group">
+            {%- for facet in filters -%}
+              {% case facet.type %}
+                {% when 'price_range' %}
+                  {%- render 'price-filter',
+                    filter: facet,
+                    filter_style: 'vertical',
+                    should_render_clear: false,
+                    id_prefix: 'am-shop'
+                  -%}
+                {% else %}
+                  {%- liquid
+                    assign active_value_count = facet.active_values | size
+                  -%}
+                  {%- render 'list-filter',
+                    filter: facet,
+                    filter_style: 'vertical',
+                    active_value_count: active_value_count,
+                    should_render_clear: false,
+                    show_swatch_label: false,
+                    sectionId: section.id
+                  -%}
+              {% endcase %}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="am-shop__filter-group am-shop__filter-group--sort">
+          <h3 class="am-shop__filter-heading">{{ 'actions.sort' | t }}</h3>
+          <select
+            id="am-shop-sort-{{ section.id }}"
+            name="sort_by"
+            class="am-shop__sort-select"
+            aria-label="{{ 'actions.sort' | t }}"
+            data-am-shop-sort
+          >
+            {%- for option in collection.sort_options -%}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == sort_by %}
+                  selected
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+
+        <button type="button" class="am-shop__apply-filters" data-am-shop-close>
+          Apply Filters
+        </button>
+      </form>
+    </facets-form-component>
+  </aside>
+</div>

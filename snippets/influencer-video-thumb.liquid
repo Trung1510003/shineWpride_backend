@@ -1,0 +1,98 @@
+{%- doc -%}
+  Renders influencer video thumbnail with fallbacks.
+
+  @param {object} block - Influencer block settings
+  @param {string} [class_prefix] - CSS class prefix
+  @param {string} [sizes] - img sizes attribute
+  @param {boolean} [as_avatar] - Circular avatar crop
+{%- enddoc -%}
+
+{%- liquid
+  assign class_prefix = class_prefix | default: 'influencer-review-card'
+  assign sizes = sizes | default: '320px'
+  assign as_avatar = as_avatar | default: false
+
+  assign yt_id = blank
+  assign yt_thumb_url = blank
+  assign url = block.settings.video_url | default: '' | strip
+
+  if url != blank
+    if url contains 'youtu.be/'
+      assign yt_part = url | split: 'youtu.be/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first | split: '/' | first
+    elsif url contains '/shorts/'
+      assign yt_part = url | split: '/shorts/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first
+    elsif url contains '/embed/'
+      assign yt_part = url | split: '/embed/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first
+    elsif url contains 'watch?v='
+      assign yt_part = url | split: 'v=' | last
+      assign yt_id = yt_part | split: '&' | first | split: '#' | first
+    elsif url contains 'youtube.com/watch/'
+      assign yt_part = url | split: 'youtube.com/watch/' | last
+      assign yt_id = yt_part | split: '?' | first | split: '&' | first | split: '/' | first
+    endif
+  endif
+
+  if yt_id != blank
+    assign yt_thumb_url = 'https://i.ytimg.com/vi/' | append: yt_id | append: '/hqdefault.jpg'
+  endif
+-%}
+
+{%- if as_avatar -%}
+  {%- if block.settings.avatar != blank -%}
+    {{
+      block.settings.avatar
+      | image_url: width: 128
+      | image_tag: loading: 'lazy', widths: '36, 64, 128', sizes: '64px', class: class_prefix | append: '__avatar-img'
+    }}
+  {%- elsif yt_thumb_url != blank -%}
+    <img
+      src="{{ yt_thumb_url }}"
+      alt=""
+      loading="lazy"
+      width="64"
+      height="64"
+      class="{{ class_prefix }}__avatar-img {{ class_prefix }}__avatar-img--youtube"
+    >
+  {%- elsif class_prefix == 'hero-slider' -%}
+    <div class="hero-slider__avatar-placeholder" aria-hidden="true"></div>
+  {%- endif -%}
+{%- elsif block.settings.preview_image != blank -%}
+  {{
+    block.settings.preview_image
+    | image_url: width: 640
+    | image_tag:
+      loading: 'lazy',
+      widths: '320, 480, 640',
+      sizes: sizes,
+      class: class_prefix | append: '__thumb-img'
+  }}
+{%- elsif yt_thumb_url != blank -%}
+  <img
+    src="{{ yt_thumb_url }}"
+    alt="{{ block.settings.name | default: 'Video review' | escape }}"
+    loading="lazy"
+    width="640"
+    height="360"
+    class="{{ class_prefix }}__thumb-img {{ class_prefix }}__thumb-img--youtube{% if as_avatar %} {{ class_prefix }}__thumb-img--avatar{% endif %}"
+    onerror="this.onerror=null;this.src='https://i.ytimg.com/vi_webp/{{ yt_id }}/sddefault.webp'"
+  >
+{%- elsif block.settings.avatar != blank and as_avatar == false -%}
+  {{
+    block.settings.avatar
+    | image_url: width: 640
+    | image_tag:
+      loading: 'lazy',
+      widths: '320, 480, 640',
+      sizes: sizes,
+      class: class_prefix | append: '__thumb-img'
+  }}
+{%- else -%}
+  {%- if class_prefix == 'hero-slider' -%}
+    <div class="hero-slider__influencer-placeholder" aria-hidden="true"></div>
+  {%- else -%}
+    <div class="{{ class_prefix }}__thumb-placeholder" aria-hidden="true"></div>
+  {%- endif -%}
+{%- endif -%}

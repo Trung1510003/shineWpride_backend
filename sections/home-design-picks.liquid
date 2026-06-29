@@ -1,0 +1,126 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+
+<div class="rb-design-picks rb-section">
+  <div class="rb-section__header">
+    <h2 class="rb-section__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ section.settings.link_url }}" class="rb-section__link">{{ section.settings.link_label }}</a>
+    {%- endif -%}
+  </div>
+
+  <div class="rb-design-picks__grid">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.link }}" class="rb-design-pick" {{ block.shopify_attributes }}>
+        <div class="rb-design-pick__media">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 600
+              | image_tag: loading: 'lazy', widths: '300, 400, 600', sizes: '(min-width: 1200px) 20vw, (min-width: 600px) 30vw, 50vw'
+            }}
+          {%- else -%}
+            <div
+              class="rb-design-pick__placeholder"
+              style="--pick-color-1: {{ block.settings.color_1 }}; --pick-color-2: {{ block.settings.color_2 }};"
+            ></div>
+          {%- endif -%}
+        </div>
+        <div class="rb-design-pick__info">
+          <p class="rb-design-pick__title">{{ block.settings.title }}</p>
+          {%- if block.settings.product_count != blank -%}
+            <p class="rb-design-pick__count">{{ block.settings.product_count }} products</p>
+          {%- endif -%}
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Design picks",
+  "tag": "section",
+  "class": "rb-design-picks-section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore designs picked for you"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "See more"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pick",
+      "name": "Design pick",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Design collection"
+        },
+        {
+          "type": "text",
+          "id": "product_count",
+          "label": "Product count",
+          "default": "50"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Placeholder color 1",
+          "default": "#f093fb"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Placeholder color 2",
+          "default": "#f5576c"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design picks",
+      "category": "Products",
+      "blocks": [
+        { "type": "pick", "settings": { "title": "Rainbow Pride Collection", "product_count": "75", "color_1": "#e40303", "color_2": "#ff8c00" } },
+        { "type": "pick", "settings": { "title": "Trans Rights Now", "product_count": "69", "color_1": "#5bcefa", "color_2": "#f5a9b8" } },
+        { "type": "pick", "settings": { "title": "Love is Love", "product_count": "70", "color_1": "#e84393", "color_2": "#fd79a8" } },
+        { "type": "pick", "settings": { "title": "Queer Joy", "product_count": "42", "color_1": "#f9ca24", "color_2": "#f0932b" } },
+        { "type": "pick", "settings": { "title": "Pride Parade Vibes", "product_count": "61", "color_1": "#6ab04c", "color_2": "#badc58" } },
+        { "type": "pick", "settings": { "title": "Non-Binary Pride", "product_count": "39", "color_1": "#fcf434", "color_2": "#9c59d1" } },
+        { "type": "pick", "settings": { "title": "Bi Pride Designs", "product_count": "15", "color_1": "#d60270", "color_2": "#0038a8" } },
+        { "type": "pick", "settings": { "title": "Ace & Aro Community", "product_count": "70", "color_1": "#a3a3a3", "color_2": "#ffffff" } },
+        { "type": "pick", "settings": { "title": "Lesbian Flag Art", "product_count": "37", "color_1": "#d52d00", "color_2": "#ff9a56" } },
+        { "type": "pick", "settings": { "title": "Pan Pride Collection", "product_count": "74", "color_1": "#ff218c", "color_2": "#21b1ff" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

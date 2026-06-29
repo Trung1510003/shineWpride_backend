@@ -1,0 +1,45 @@
+<div
+  id="shinewpride-image-protection"
+  class="shinewpride-image-protection"
+  data-image-protection
+  data-disable-context-menu="{{ block.settings.disable_context_menu }}"
+  data-disable-drag="{{ block.settings.disable_drag }}"
+  data-blur-on-blur="{{ block.settings.blur_on_blur }}"
+  data-detect-devtools="{{ block.settings.detect_devtools }}"
+  {{ block.shopify_attributes }}
+></div>
+
+{% schema %}
+{
+  "name": "Image protection",
+  "target": "body",
+  "javascript": "image-protection.js",
+  "stylesheet": "image-protection.css",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "disable_context_menu",
+      "label": "Disable right-click on product images",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_drag",
+      "label": "Disable drag-and-drop on product images",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blur_on_blur",
+      "label": "Blur product images when the tab loses focus",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "detect_devtools",
+      "label": "Detect DevTools and blur product images",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

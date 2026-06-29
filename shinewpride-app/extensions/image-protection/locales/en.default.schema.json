@@ -1,0 +1,21 @@
+{
+  "blocks": {
+    "image-protection": {
+      "name": "Image protection",
+      "settings": {
+        "disable_context_menu": {
+          "label": "Disable right-click on product images"
+        },
+        "disable_drag": {
+          "label": "Disable drag-and-drop on product images"
+        },
+        "blur_on_blur": {
+          "label": "Blur product images when the tab loses focus"
+        },
+        "detect_devtools": {
+          "label": "Detect DevTools and blur product images"
+        }
+      }
+    }
+  }
+}

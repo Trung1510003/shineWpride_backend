@@ -1,0 +1,30 @@
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "am_footer": {
+      "type": "am-footer",
+      "settings": {
+        "brand_name": "ShineW Pride",
+        "brand_text": "Celebrate pride, identity, and self-expression with bold designs from independent LGBTQ+ artists.",
+        "shop_heading": "Shop",
+        "all_products_label": "All Products",
+        "new_arrivals_label": "New Arrivals",
+        "sale_label": "Sale",
+        "collections_label": "Collections",
+        "support_heading": "Support",
+        "contact_label": "Contact Us",
+        "faq_label": "FAQ",
+        "shipping_label": "Shipping Info",
+        "returns_label": "Returns",
+        "company_heading": "Company",
+        "about_label": "About Us",
+        "privacy_label": "Privacy Policy",
+        "terms_label": "Terms of Service",
+        "careers_label": "Careers",
+        "copyright_text": "© [year] ShineW Pride. All rights reserved."
+      }
+    }
+  },
+  "order": ["am_footer"]
+}

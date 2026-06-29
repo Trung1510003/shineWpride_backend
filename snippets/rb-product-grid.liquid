@@ -1,0 +1,77 @@
+{%- doc -%}
+  Renders a product grid from a product list, or demo placeholders when empty.
+
+  @param {object[]} products - Array of product objects
+  @param {number} [limit] - Max items to show
+  @param {string} [demo_group] - Filter demo products by group keyword
+  @param {string} [grid_class] - Extra CSS class on grid
+{%- enddoc -%}
+
+{%- liquid
+  assign limit = limit | default: 20
+  assign grid_class = grid_class | default: ''
+  assign shown = 0
+
+  assign demo_catalog = 'Rainbow Pride Tee|ShineWpride|T-Shirts|$24.00|#e40303|#ff8c00|demo-rainbow-pride-tee.jpg,Equality Heart Hoodie|ArtByAlex|Hoodies|$45.00|#ff6b6b|#ee5a24|demo-equality-heart-hoodie.jpg,Love Wins Sticker Pack|StickerLab|Stickers|$8.00|#f9ca24|#f0932b|demo-love-wins-stickers.jpg,Progress Flag Mug|PrideDesigns|Mugs|$16.00|#6ab04c|#badc58|demo-progress-flag-mug.jpg,Non-Binary Pride Scarf|QueerThreads|Accessories|$32.00|#4834d4|#686de0|demo-nonbinary-scarf.jpg,Trans Rights Poster|PixelPride|Posters|$18.00|#45aaf2|#4bcffa|demo-trans-rights-poster.jpg,Bi Pride Phone Case|ColorWave|Phone Cases|$22.00|#d63384|#e056fd|demo-bi-pride-phone.jpg,Lesbian Flag Tote|HerArt|Bags|$28.00|#e17055|#fab1a0|demo-lesbian-flag-tote.jpg,Pan Pride Pin Set|BadgeMaker|Stickers|$12.00|#fdcb6e|#ffeaa7|demo-pan-pride-pins.jpg,Ace Pride Sweatshirt|SoftPride|Hoodies|$38.00|#636e72|#b2bec3|demo-ace-pride-sweatshirt.jpg,Pride Parade Tank|BoldWear|T-Shirts|$26.00|#00b894|#55efc4|demo-pride-parade-tank.jpg,Queer Joy Sticker|HappyArt|Stickers|$5.00|#a29bfe|#6c5ce7|demo-queer-joy-sticker.jpg,They/Them Tee|GenderFree|T-Shirts|$22.00|#74b9ff|#0984e3|demo-they-them-tee.jpg,Pride Month Bundle|ShineWpride|Bundles|$55.00|#e84393|#fd79a8|demo-pride-month-bundle.jpg,Love is Love Cap|CapCulture|Hats|$20.00|#2d3436|#636e72|demo-love-is-love-cap.jpg,Enby Flag Pillow|CozyQueer|Home & Living|$30.00|#ffeaa7|#fdcb6e|demo-enby-flag-pillow.jpg,Genderfluid Art Print|FluidArt|Posters|$24.00|#81ecec|#00cec9|demo-genderfluid-print.jpg,Two-Spirit Design Tee|IndigenousPride|T-Shirts|$28.00|#a55eea|#8854d0|demo-two-spirit-tee.jpg,Ally Pride Badge|SupportWear|Stickers|$10.00|#26de81|#20bf6b|demo-ally-pride-badge.jpg,Chosen Family Tee|FamilyFirst|T-Shirts|$25.00|#fc5c65|#eb3b5a|demo-chosen-family-tee.jpg,Pride Flag Poster|ShineWpride|Posters|$19.00|#e40303|#732982|demo-pride-flag-poster.jpg,Queer Anatomy Tee|BodyPosi|T-Shirts|$27.00|#fd79a8|#e84393|demo-queer-anatomy-tee.jpg' | split: ','
+-%}
+
+<div class="rb-products__grid {{ grid_class }}">
+  {%- if products != blank -%}
+    {%- for product in products -%}
+      {%- if shown >= limit -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- liquid
+        assign shown = shown | plus: 1
+        assign artist_name = product.vendor
+        if artist_name == blank
+          assign artist_name = 'Independent Artist'
+        endif
+      -%}
+      {% render 'rb-product-card',
+        title: product.title,
+        artist: artist_name,
+        price: product.price | money,
+        url: product.url,
+        image: product.featured_image
+      %}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if shown == 0 -%}
+    {%- for item in demo_catalog -%}
+      {%- liquid
+        assign parts = item | split: '|'
+        assign prod_title = parts[0]
+        assign prod_artist = parts[1]
+        assign prod_group = parts[2]
+        assign prod_price = parts[3]
+        assign prod_color_1 = parts[4]
+        assign prod_color_2 = parts[5]
+        assign prod_image = parts[6]
+
+        if demo_group != blank
+          assign group_key = demo_group | downcase
+          assign prod_group_down = prod_group | downcase
+          unless prod_group_down contains group_key or group_key contains prod_group_down
+            continue
+          endunless
+        endif
+
+        if shown >= limit
+          break
+        endif
+        assign shown = shown | plus: 1
+      -%}
+      {% render 'rb-product-card',
+        title: prod_title,
+        artist: prod_artist,
+        price: prod_price,
+        url: routes.collections_url | append: '/all',
+        color_1: prod_color_1,
+        color_2: prod_color_2,
+        image_asset: prod_image
+      %}
+    {%- endfor -%}
+  {%- endif -%}
+</div>

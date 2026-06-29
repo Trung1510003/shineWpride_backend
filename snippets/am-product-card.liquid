@@ -1,0 +1,61 @@
+{%- doc -%}
+  Artistry marketplace product card — ported from prototype ProductCard.tsx
+{%- enddoc -%}
+
+{%- liquid
+  assign title = title | default: 'Product'
+  assign category = category | default: ''
+  assign price = price | default: ''
+  assign url = url | default: '#'
+  assign image = image | default: blank
+  assign image_asset = image_asset | default: blank
+  assign color_1 = color_1 | default: '#a8edea'
+  assign color_2 = color_2 | default: '#fed6e3'
+  assign show_badge = show_badge | default: true
+  assign max_card_image_width = 600
+-%}
+
+<a href="{{ url }}" class="am-product-card">
+  <div class="am-product-card__media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: max_card_image_width
+        | image_tag:
+          loading: 'lazy',
+          widths: '200, 300, 400, 600',
+          sizes: '(min-width: 64rem) 20rem, (min-width: 40rem) 45vw, 100vw',
+          alt: title,
+          class: 'am-product-card__img'
+      }}
+    {%- elsif image_asset != blank -%}
+      <img
+        src="{{ image_asset | asset_url }}"
+        alt="{{ title | escape }}"
+        loading="lazy"
+        class="am-product-card__img"
+      >
+    {%- else -%}
+      <div
+        class="am-product-card__placeholder"
+        style="--prod-color-1: {{ color_1 }}; --prod-color-2: {{ color_2 }};"
+        role="img"
+        aria-label="{{ title | escape }}"
+      ></div>
+    {%- endif -%}
+
+    {%- if show_badge -%}
+      <span class="am-product-card__badge">New</span>
+    {%- endif -%}
+  </div>
+
+  <div class="am-product-card__info">
+    {%- if category != blank -%}
+      <p class="am-product-card__category">{{ category }}</p>
+    {%- endif -%}
+    <h3 class="am-product-card__title">{{ title }}</h3>
+    {%- if price != blank -%}
+      <p class="am-product-card__price">{{ price }}</p>
+    {%- endif -%}
+  </div>
+</a>

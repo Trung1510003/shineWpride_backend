@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "story": {
+          "type": "heading",
+          "settings": { "heading": "Our Story" }
+        },
+        "story_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>ShineWpride was born from a simple belief: everyone deserves to wear their pride with confidence. We curate bold, meaningful designs from independent artists and creators who celebrate LGBTQ+ identity, love, and self-expression.</p><p>What started as a small passion project has grown into a global community of customers, artists, and allies who believe fashion can be a form of activism — and joy.</p>"
+          }
+        },
+        "mission": {
+          "type": "heading",
+          "settings": { "heading": "Our Mission" }
+        },
+        "mission_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>We exist to make queer joy visible. Every purchase on ShineWpride supports independent artists and helps us fund community initiatives, from Pride event sponsorships to mental health resources for LGBTQ+ youth.</p><ul><li><strong>Authentic representation</strong> — designs created by and for the community</li><li><strong>Quality first</strong> — premium materials on every product</li><li><strong>Inclusive sizing</strong> — because pride has no size limit</li><li><strong>Global reach</strong> — shipping to customers worldwide</li></ul>"
+          }
+        },
+        "values": {
+          "type": "heading",
+          "settings": { "heading": "What We Stand For" }
+        },
+        "values_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>We are proudly queer-owned and operated. We partner with artists who share our values of inclusivity, sustainability, and social responsibility. We print on demand to reduce waste, use eco-friendly packaging where possible, and are committed to improving our environmental footprint every year.</p>"
+          }
+        },
+        "callout": {
+          "type": "callout",
+          "settings": {
+            "body": "<p><strong>Join the movement.</strong> Follow us on social media, tag us in your ShineWpride fits, and help us spread love one design at a time. 🏳️‍🌈</p>"
+          }
+        }
+      },
+      "block_order": ["story", "story_text", "mission", "mission_text", "values", "values_text", "callout"],
+      "settings": {
+        "title": "About Us",
+        "intro": "Celebrating identity, art, and community — one design at a time.",
+        "show_header": true,
+        "wide_layout": false,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,23 @@
+{%- liquid
+  assign category_label = closest.product.type
+  if category_label == blank
+    assign category_label = closest.product.vendor
+  endif
+-%}
+
+{%- if category_label != blank -%}
+  <p class="am-product-category" {{ block.shopify_attributes }}>
+    {{ category_label }}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product category",
+  "presets": [
+    {
+      "name": "Product category"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "am_header": {
+      "type": "am-header",
+      "settings": {
+        "brand_name": "ShineW Pride",
+        "show_brand_name": true,
+        "search_placeholder": "Search for pride merch, stickers, phone cases...",
+        "home_label": "Home",
+        "shop_label": "Shop",
+        "collections_label": "Collections",
+        "about_label": "About"
+      }
+    }
+  },
+  "order": ["am_header"]
+}

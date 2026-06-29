@@ -1,0 +1,19 @@
+{%- doc -%}
+  Outputs "true" when a header nav link should be hidden (Shop, About Us).
+
+  @param {link} link - Shopify menu link object
+{%- enddoc -%}
+
+{%- liquid
+  assign title_down = link.title | downcase | strip
+  assign nav_excluded = false
+
+  if title_down == 'shop' or title_down == 'about us'
+    assign nav_excluded = true
+  endif
+
+  if link.handle == 'shop' or link.handle == 'about-us'
+    assign nav_excluded = true
+  endif
+-%}
+{%- if nav_excluded -%}true{%- endif -%}

@@ -1,0 +1,93 @@
+{%- doc -%}
+  Main hero image slide for home hero slider.
+{%- enddoc -%}
+
+{% liquid
+  assign block_settings = block.settings
+  assign loading = 'lazy'
+  assign fetchpriority = 'auto'
+  if block_index == 0
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+
+  assign hero_logo = block_settings.logo
+  if hero_logo == blank and settings.logo_inverse != blank
+    assign hero_logo = settings.logo_inverse
+  endif
+  if hero_logo == blank
+    assign hero_logo = settings.logo
+  endif
+
+  assign show_hero_logo = true
+  if block_settings.show_logo == false
+    assign show_hero_logo = false
+  endif
+%}
+
+{% capture slide_content %}
+  <div class="hero-banner__slide-inner">
+    <div class="hero-banner__media">
+      {%- if block_settings.toggle_overlay -%}
+        {% render 'overlay', settings: block_settings, layer: 'var(--layer-base)' %}
+      {%- endif -%}
+      {%- if block_settings.image != blank -%}
+        {{
+          block_settings.image
+          | image_url: width: 2560
+          | image_tag:
+            class: 'hero-banner__image',
+            loading: loading,
+            fetchpriority: fetchpriority,
+            sizes: '100vw',
+            widths: '832, 1200, 1600, 1920, 2560'
+        }}
+      {%- else -%}
+        <div class="hero-slider__influencer-placeholder" style="min-height:100%;background:linear-gradient(135deg,#e40303,#732982);"></div>
+      {%- endif -%}
+    </div>
+    {%- if show_hero_logo and hero_logo != blank -%}
+      <div class="hero-banner__logo" aria-hidden="true">
+        {{
+          hero_logo
+          | image_url: width: 1200
+          | image_tag:
+            class: 'hero-banner__logo-image',
+            loading: loading,
+            fetchpriority: fetchpriority,
+            sizes: '(min-width: 750px) 560px, 80vw',
+            widths: '320, 480, 640, 800, 960, 1200',
+            alt: ''
+        }}
+      </div>
+    {%- endif -%}
+    <div
+      class="hero-banner__content hero-banner__content--align-{{ block_settings.content_alignment }} hero-banner__content--pos-{{ block_settings.content_position }}"
+      {{ block.shopify_attributes }}
+    >
+      <div class="hero-banner__content-box">
+        {%- if block_settings.eyebrow != blank -%}
+          <p class="hero-banner__eyebrow">{{ block_settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if block_settings.heading != blank -%}
+          <h2 class="hero-banner__heading">{{ block_settings.heading }}</h2>
+        {%- endif -%}
+        {%- if block_settings.subheading != blank -%}
+          <p class="hero-banner__subheading">{{ block_settings.subheading }}</p>
+        {%- endif -%}
+        {%- if block_settings.button_label != blank -%}
+          <a href="{{ block_settings.button_link | default: routes.all_products_collection_url }}" class="hero-banner__button">
+            <span>{{ block_settings.button_label }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{% endcapture %}
+
+{% render 'slideshow-slide',
+  index: block_index,
+  children: slide_content,
+  slide_size: section.settings.slide_height,
+  navigate_to_slide: false
+%}

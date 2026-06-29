@@ -1,0 +1,50 @@
+
+{{ 'home-bottom-nav.css' | asset_url | stylesheet_tag }}
+
+<nav class="home-bottom-nav" aria-label="Mobile navigation">
+  <a href="{{ routes.root_url }}" class="home-bottom-nav__link is-active">
+    <span class="home-bottom-nav__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z"/></svg>
+    </span>
+    Home
+  </a>
+  <a href="{{ routes.all_products_collection_url }}" class="home-bottom-nav__link">
+    <span class="home-bottom-nav__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 6h15l-1.5 9H7.5L6 6zM6 6l-1.25-2.5M9 20a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"/></svg>
+    </span>
+    Shop
+  </a>
+  <a href="{% render 'wishlist-url' %}" class="home-bottom-nav__link">
+    <span class="home-bottom-nav__icon" aria-hidden="true">
+      {{ 'icon-heart.svg' | inline_asset_content }}
+    </span>
+    Wishlist
+  </a>
+  <a href="{{ routes.cart_url }}" class="home-bottom-nav__link">
+    <span class="home-bottom-nav__icon" aria-hidden="true">
+      {{ 'icon-cart.svg' | inline_asset_content }}
+    </span>
+    Cart
+  </a>
+  <a href="{% render 'account-auth-url', type: 'account' %}" class="home-bottom-nav__link">
+    <span class="home-bottom-nav__icon" aria-hidden="true">
+      {{ 'icon-account.svg' | inline_asset_content }}
+    </span>
+    Account
+  </a>
+</nav>
+
+{% schema %}
+{
+  "name": "Bottom navigation",
+  "tag": "section",
+  "class": "home-bottom-nav-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Bottom navigation",
+      "category": "Navigation"
+    }
+  ]
+}
+{% endschema %}

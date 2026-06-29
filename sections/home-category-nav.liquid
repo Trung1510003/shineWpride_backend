@@ -1,0 +1,188 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign category_index = 0
+  assign props_after = section.settings.value_props_after | default: 3
+  assign has_value_props = false
+
+  for block in section.blocks
+    if block.type == 'value_prop'
+      assign has_value_props = true
+      break
+    endif
+  endfor
+-%}
+
+<div class="rb-categories rb-categories--grid">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="rb-categories__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="rb-categories__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'category' -%}
+        {%- render 'rb-category-card', block: block -%}
+        {%- assign category_index = category_index | plus: 1 -%}
+
+        {%- if category_index == props_after and section.settings.show_value_props and has_value_props -%}
+          <div class="rb-categories__value-props">
+            <div class="rb-categories__value-props-grid">
+              {%- for prop_block in section.blocks -%}
+                {%- if prop_block.type == 'value_prop' -%}
+                  <div class="rb-value-prop" {{ prop_block.shopify_attributes }}>
+                    {%- if prop_block.settings.icon != blank -%}
+                      <div class="rb-value-prop__icon">{{ prop_block.settings.icon }}</div>
+                    {%- endif -%}
+                    {%- if prop_block.settings.title != blank -%}
+                      <h3 class="rb-value-prop__title">{{ prop_block.settings.title }}</h3>
+                    {%- endif -%}
+                    {%- if prop_block.settings.text != blank -%}
+                      <p class="rb-value-prop__text">{{ prop_block.settings.text }}</p>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category navigation",
+  "tag": "section",
+  "class": "rb-categories-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop Product Range"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_value_props",
+      "label": "Show value propositions row",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "value_props_after",
+      "label": "Insert value props after category",
+      "min": 1,
+      "max": 9,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "T-Shirts"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Used when catalog link is set to Custom URL"
+        },
+        {
+          "type": "select",
+          "id": "catalog_target_type",
+          "label": "Catalog link",
+          "options": [
+            { "value": "none", "label": "Custom URL" },
+            { "value": "all", "label": "All products" },
+            { "value": "new_arrivals", "label": "New arrivals" },
+            { "value": "collections", "label": "Collections" },
+            { "value": "groups", "label": "Product groups" },
+            { "value": "collection_item", "label": "Specific collection row" },
+            { "value": "group_item", "label": "Specific product group row" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "catalog_anchor",
+          "label": "Catalog anchor ID",
+          "info": "e.g. collection-col_1 or group-t-shirts",
+          "visible_if": "{{ block.settings.catalog_target_type == 'collection_item' or block.settings.catalog_target_type == 'group_item' }}"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "demo_image",
+          "label": "Demo image asset",
+          "info": "Filename in assets/ folder, used when no image is uploaded"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Placeholder color 1",
+          "default": "#667eea"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Placeholder color 2",
+          "default": "#764ba2"
+        }
+      ]
+    },
+    {
+      "type": "value_prop",
+      "name": "Value proposition",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "🎨"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Weirdly meaningful art"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Millions of designs on over 70 high quality products."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category navigation",
+      "category": "Collections",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Sci-Fi Merch", "catalog_target_type": "collections", "color_1": "#0f0c29", "color_2": "#302b63", "demo_image": "demo-cat-sci-fi.jpg" } },
+        { "type": "category", "settings": { "title": "Celebrate Pride", "catalog_target_type": "collection_item", "catalog_anchor": "collection-col_pride", "color_1": "#e40303", "color_2": "#732982", "demo_image": "demo-cat-pride.jpg" } },
+        { "type": "category", "settings": { "title": "New Arrivals", "catalog_target_type": "new_arrivals", "color_1": "#834d9b", "color_2": "#d04ed6", "demo_image": "demo-cat-new-arrivals.jpg" } },
+        { "type": "category", "settings": { "title": "Stickers", "catalog_target_type": "group_item", "catalog_anchor": "group-stickers", "color_1": "#f7971e", "color_2": "#ffd200", "demo_image": "demo-cat-stickers.jpg" } },
+        { "type": "category", "settings": { "title": "T-Shirts", "catalog_target_type": "group_item", "catalog_anchor": "group-t-shirts", "color_1": "#56ab2f", "color_2": "#a8e063", "demo_image": "demo-cat-tshirts.jpg" } },
+        { "type": "category", "settings": { "title": "Phone Cases", "catalog_target_type": "group_item", "catalog_anchor": "group-phone-cases", "color_1": "#2193b0", "color_2": "#6dd5ed", "demo_image": "demo-cat-phone-cases.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

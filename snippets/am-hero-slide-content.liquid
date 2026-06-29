@@ -1,0 +1,84 @@
+{%- doc -%}
+  Artistry hero slide content for the homepage slider.
+
+  @param {object} section - Section with hero text/button settings
+{%- enddoc -%}
+
+<section class="am-hero am-hero--slide">
+  <div class="am-hero__glow" aria-hidden="true">
+    <div class="am-hero__glow-blob am-hero__glow-blob--1"></div>
+    <div class="am-hero__glow-blob am-hero__glow-blob--2"></div>
+  </div>
+
+  <div class="am-hero__inner rb-home-shell">
+    <div class="am-hero__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="am-hero__eyebrow">
+          <svg class="am-hero__eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+            <path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/>
+          </svg>
+          <span>{{ section.settings.eyebrow }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- liquid
+        assign hero_logo = section.settings.heading_logo
+        if hero_logo == blank
+          assign hero_logo = settings.logo
+        endif
+        assign hero_logo_alt = section.settings.brand_name | default: shop.name
+      -%}
+
+      {%- if section.settings.heading != blank or hero_logo != blank or section.settings.heading_highlight != blank -%}
+        <h1 class="am-hero__heading">
+          {%- if section.settings.heading != blank -%}
+            <span class="am-hero__heading-line">{{ section.settings.heading }}</span>
+          {%- endif -%}
+          {%- if hero_logo != blank -%}
+            <span class="am-hero__heading-logo">
+              {{
+                hero_logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'am-hero__logo-img',
+                  alt: hero_logo_alt,
+                  loading: 'eager',
+                  widths: '200, 300, 400, 600',
+                  sizes: '(min-width: 48rem) 320px, 220px'
+              }}
+            </span>
+          {%- elsif section.settings.heading_highlight != blank -%}
+            <span class="am-hero__heading-highlight">{{ section.settings.heading_highlight }}</span>
+          {%- endif -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="am-hero__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="am-hero__actions">
+        {%- if section.settings.primary_button_label != blank -%}
+          <a
+            href="{{ section.settings.primary_button_link | default: routes.all_products_collection_url }}"
+            class="am-hero__button am-hero__button--primary"
+          >
+            <span>{{ section.settings.primary_button_label }}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_button_label != blank -%}
+          <a
+            href="{{ section.settings.secondary_button_link | default: routes.collections_url }}"
+            class="am-hero__button am-hero__button--secondary"
+          >
+            {{ section.settings.secondary_button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>

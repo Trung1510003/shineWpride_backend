@@ -1,0 +1,50 @@
+{%- doc -%}
+  Redbubble-style product card with title, artist, and price.
+{%- enddoc -%}
+
+{%- liquid
+  assign title = title | default: 'Product'
+  assign artist = artist | default: 'Independent Artist'
+  assign price = price | default: '$20.00'
+  assign url = url | default: '#'
+  assign image = image | default: blank
+  assign image_asset = image_asset | default: blank
+  assign color_1 = color_1 | default: '#a8edea'
+  assign color_2 = color_2 | default: '#fed6e3'
+-%}
+
+<a href="{{ url }}" class="rb-product-card">
+  <div class="rb-product-card__media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 600
+        | image_tag:
+          loading: 'lazy',
+          widths: '200, 300, 400, 600',
+          sizes: '(min-width: 75rem) 12rem, (min-width: 62rem) 14rem, (min-width: 37.5rem) 12rem, 10rem',
+          alt: title,
+          class: 'rb-product-card__img'
+      }}
+    {%- elsif image_asset != blank -%}
+      <img
+        src="{{ image_asset | asset_url }}"
+        alt="{{ title | escape }}"
+        loading="lazy"
+        class="rb-product-card__img"
+      >
+    {%- else -%}
+      <div
+        class="rb-product-card__placeholder"
+        style="--prod-color-1: {{ color_1 }}; --prod-color-2: {{ color_2 }};"
+        role="img"
+        aria-label="{{ title | escape }}"
+      ></div>
+    {%- endif -%}
+  </div>
+  <div class="rb-product-card__info">
+    <p class="rb-product-card__title">{{ title }}</p>
+    <p class="rb-product-card__artist">by {{ artist }}</p>
+    <p class="rb-product-card__price">{{ price }}</p>
+  </div>
+</a>

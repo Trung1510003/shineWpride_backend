@@ -1,0 +1,80 @@
+{%- doc -%}
+  Redbubble-style inline search bar with dropdown panel.
+
+  @param {string} [class] - Additional CSS classes
+  @param {string} [placeholder] - Placeholder text
+{%- enddoc -%}
+
+{%- liquid
+  assign placeholder_text = placeholder | default: section.settings.search_placeholder | default: 'Search for pride merch, stickers, phone cases...'
+  assign panel_id = 'rb-search-panel'
+  assign input_id = 'rb-search-input'
+  if section.id
+    assign panel_id = panel_id | append: '-' | append: section.id
+    assign input_id = input_id | append: '-' | append: section.id
+  endif
+-%}
+
+<script src="{{ 'search-dropdown.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<rb-search-dropdown class="rb-search-dropdown rb-search-bar{% if class != blank %} {{ class | strip }}{% endif %}">
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+    class="rb-search-dropdown__form"
+    data-search-form
+  >
+    <div class="rb-search-bar__shell">
+      <label class="visually-hidden" for="{{ input_id }}">{{ 'content.search_input_label' | t }}</label>
+      <input
+        id="{{ input_id }}"
+        class="rb-search-dropdown__input"
+        type="search"
+        name="q"
+        data-search-input
+        autocomplete="off"
+        placeholder="{{ placeholder_text }}"
+        aria-expanded="false"
+        aria-controls="{{ panel_id }}"
+        aria-haspopup="dialog"
+        role="combobox"
+      >
+      <span class="rb-search-bar__lens" aria-hidden="true">
+        <span class="rb-search-bar__sparkle-field">
+          <svg class="rb-search-bar__sparkle rb-search-bar__sparkle--1" viewBox="0 0 12 12" width="12" height="12" fill="currentColor">
+            <path d="M6 0l1.2 3.6L11 4.8 7.6 6l1.2 4.2L6 8.4 3.2 10.2 4.4 6 1 4.8l3.8-1.2L6 0z"/>
+          </svg>
+          <svg class="rb-search-bar__sparkle rb-search-bar__sparkle--2" viewBox="0 0 8 8" width="8" height="8" fill="currentColor">
+            <path d="M4 0l.8 2.4L7 3.2 4.8 4l.8 2.8L4 5.6 2.4 6.8 3.2 4 1 3.2l2.4-.8L4 0z"/>
+          </svg>
+          <svg class="rb-search-bar__sparkle rb-search-bar__sparkle--3" viewBox="0 0 8 8" width="8" height="8" fill="currentColor">
+            <path d="M4 0l.8 2.4L7 3.2 4.8 4l.8 2.8L4 5.6 2.4 6.8 3.2 4 1 3.2l2.4-.8L4 0z"/>
+          </svg>
+        </span>
+        <span class="rb-search-bar__sparkle-field rb-search-bar__sparkle-field--reverse">
+          <svg class="rb-search-bar__sparkle rb-search-bar__sparkle--4" viewBox="0 0 8 8" width="8" height="8" fill="currentColor">
+            <path d="M4 0l.8 2.4L7 3.2 4.8 4l.8 2.8L4 5.6 2.4 6.8 3.2 4 1 3.2l2.4-.8L4 0z"/>
+          </svg>
+        </span>
+        <span class="rb-search-bar__icon svg-wrapper">
+          {{ 'icon-search.svg' | inline_asset_content }}
+        </span>
+      </span>
+    </div>
+
+    <div
+      id="{{ panel_id }}"
+      class="rb-search-dropdown__panel"
+      data-search-panel
+      hidden
+      role="dialog"
+      aria-label="{{ 'content.search' | t }}"
+    >
+      <div class="rb-search-dropdown__panel-inner">
+        {% render 'search-dropdown-panel', search_url: routes.search_url %}
+        <div class="rb-search-dropdown__results" data-search-results hidden></div>
+      </div>
+    </div>
+  </form>
+</rb-search-dropdown>

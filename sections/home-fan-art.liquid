@@ -1,0 +1,229 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'home-redbubble.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<div class="rb-fan-art rb-section" data-rb-tabs>
+  <div class="rb-section__header">
+    <h2 class="rb-section__title">{{ section.settings.heading }}</h2>
+  </div>
+
+  <div class="rb-fan-art__tabs">
+    {%- for block in section.blocks -%}
+      <button
+        type="button"
+        class="rb-fan-art__tab{% if forloop.first %} is-active{% endif %}"
+        data-rb-tab="{{ block.id }}"
+        {{ block.shopify_attributes }}
+      >
+        {{ block.settings.tab_label }}
+      </button>
+    {%- endfor -%}
+  </div>
+
+  {%- for block in section.blocks -%}
+    <div
+      class="rb-fan-art__panel{% if forloop.first %} is-active{% endif %}"
+      data-rb-panel="{{ block.id }}"
+    >
+      <div class="rb-fan-art__banner">
+        <div class="rb-fan-art__banner-image">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 750px) 50vw, 100vw'
+            }}
+          {%- else -%}
+            <div
+              class="rb-fan-art__banner-placeholder"
+              style="background: linear-gradient(135deg, {{ block.settings.color_1 }}, {{ block.settings.color_2 }});"
+            ></div>
+          {%- endif -%}
+        </div>
+        <div class="rb-fan-art__banner-content">
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.description }}</p>
+          {%- if block.settings.button_label != blank -%}
+            <a href="{{ block.settings.button_link }}" class="rb-fan-art__shop-link">
+              {{ block.settings.button_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="rb-products__grid">
+        {%- assign demo_count = block.settings.product_count | default: 4 -%}
+        {%- for i in (1..demo_count) -%}
+          {%- liquid
+            assign idx = forloop.index0 | modulo: 4
+            case idx
+              when 0
+                assign c1 = block.settings.color_1
+                assign c2 = block.settings.color_2
+              when 1
+                assign c1 = '#f093fb'
+                assign c2 = '#f5576c'
+              when 2
+                assign c1 = '#4facfe'
+                assign c2 = '#00f2fe'
+              else
+                assign c1 = '#43e97b'
+                assign c2 = '#38f9d7'
+            endcase
+          -%}
+          {%- liquid
+            assign price_offset = forloop.index | times: 2 | plus: 18
+            assign prod_price = '$' | append: price_offset | append: '.00'
+            assign prod_title = block.settings.title | append: ' — Design ' | append: i
+          -%}
+          {% render 'rb-product-card',
+            title: prod_title,
+            artist: block.settings.artist_name,
+            price: prod_price,
+            url: block.settings.button_link,
+            color_1: c1,
+            color_2: c2
+          %}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Fan art showcase",
+  "tag": "section",
+  "class": "rb-fan-art-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop fan art made by artists who love it too"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "franchise",
+      "name": "Franchise",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label",
+          "default": "Pride"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pride Collection"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Celebrate love, identity, and community with artist-made pride designs."
+        },
+        {
+          "type": "text",
+          "id": "artist_name",
+          "label": "Artist name",
+          "default": "ShineWpride"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Pride merch"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "product_count",
+          "label": "Products to show",
+          "min": 2,
+          "max": 8,
+          "step": 1,
+          "default": 4
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner image"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Color 1",
+          "default": "#e40303"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Color 2",
+          "default": "#732982"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fan art showcase",
+      "category": "Products",
+      "blocks": [
+        {
+          "type": "franchise",
+          "settings": {
+            "tab_label": "Pride",
+            "title": "Pride Collection",
+            "description": "Celebrate love, identity, and community with artist-made pride designs.",
+            "button_label": "Shop Pride merch",
+            "color_1": "#e40303",
+            "color_2": "#732982"
+          }
+        },
+        {
+          "type": "franchise",
+          "settings": {
+            "tab_label": "Pop Culture",
+            "title": "Pop Culture Merch",
+            "description": "Cult movies, music, and internet references — designed by fans, for fans.",
+            "button_label": "Shop Pop Culture",
+            "color_1": "#667eea",
+            "color_2": "#764ba2"
+          }
+        },
+        {
+          "type": "franchise",
+          "settings": {
+            "tab_label": "Sci-Fi",
+            "title": "Sci-Fi Collection",
+            "description": "Explore the galaxy with out-of-this-world designs from independent artists.",
+            "button_label": "Shop Sci-Fi merch",
+            "color_1": "#0f0c29",
+            "color_2": "#302b63"
+          }
+        },
+        {
+          "type": "franchise",
+          "settings": {
+            "tab_label": "Music",
+            "title": "Music & Band Merch",
+            "description": "Show your love for your favorite artists with unique fan-made designs.",
+            "button_label": "Shop Music merch",
+            "color_1": "#ee0979",
+            "color_2": "#ff6a00"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

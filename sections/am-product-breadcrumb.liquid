@@ -1,0 +1,45 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign shop_url = routes.all_products_collection_url
+  if collection != blank
+    assign shop_url = collection.url
+  endif
+-%}
+
+<nav class="am-breadcrumb rb-home-shell" aria-label="Breadcrumb">
+  <ol class="am-breadcrumb__list">
+    <li class="am-breadcrumb__item">
+      <a href="{{ routes.root_url }}" class="am-breadcrumb__link">Home</a>
+    </li>
+    <li class="am-breadcrumb__sep" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </li>
+    <li class="am-breadcrumb__item">
+      <a href="{{ shop_url }}" class="am-breadcrumb__link">Shop</a>
+    </li>
+    <li class="am-breadcrumb__sep" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </li>
+    <li class="am-breadcrumb__item am-breadcrumb__item--current" aria-current="page">
+      <span>{{ product.title }}</span>
+    </li>
+  </ol>
+</nav>
+
+{% schema %}
+{
+  "name": "Product breadcrumb",
+  "tag": "section",
+  "class": "am-breadcrumb-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "Product breadcrumb"
+    }
+  ]
+}
+{% endschema %}

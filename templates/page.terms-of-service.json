@@ -1,0 +1,132 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "overview": {
+          "type": "text",
+          "settings": {
+            "body": "<p><em>Last updated: June 2025</em></p><p>Please read these Terms of Service (\"Terms\") carefully before using the ShineWpride website and purchasing our products. By accessing or using our site, you agree to be bound by these Terms.</p>"
+          }
+        },
+        "acceptance": {
+          "type": "heading",
+          "settings": { "heading": "1. Acceptance of Terms" }
+        },
+        "acceptance_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>By using our website, creating an account, or placing an order, you confirm that you are at least 18 years old (or have parental consent) and agree to these Terms and our Privacy Policy.</p>"
+          }
+        },
+        "products": {
+          "type": "heading",
+          "settings": { "heading": "2. Products & Pricing" }
+        },
+        "products_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>We strive to display product colors and images as accurately as possible, but we cannot guarantee that your screen's display will exactly match the physical product. Prices are listed in USD unless otherwise stated and are subject to change without notice. We reserve the right to limit quantities, refuse orders, or discontinue products at any time.</p>"
+          }
+        },
+        "orders": {
+          "type": "heading",
+          "settings": { "heading": "3. Orders & Payment" }
+        },
+        "orders_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Placing an order constitutes an offer to purchase. We reserve the right to accept or decline any order. Payment must be received in full before orders are processed. All payments are processed securely through our third-party payment providers.</p>"
+          }
+        },
+        "shipping": {
+          "type": "heading",
+          "settings": { "heading": "4. Shipping & Delivery" }
+        },
+        "shipping_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Shipping terms are outlined in our <a href=\"/pages/shipping-policy\">Shipping Policy</a>. Delivery times are estimates and not guaranteed. Risk of loss passes to you upon delivery to the carrier.</p>"
+          }
+        },
+        "returns": {
+          "type": "heading",
+          "settings": { "heading": "5. Returns & Refunds" }
+        },
+        "returns_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Returns and refunds are governed by our <a href=\"/pages/refund-policy\">Refund & Return Policy</a>. By purchasing from us, you agree to those terms.</p>"
+          }
+        },
+        "ip": {
+          "type": "heading",
+          "settings": { "heading": "6. Intellectual Property" }
+        },
+        "ip_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>All content on this website — including designs, logos, text, images, and graphics — is owned by ShineWpride or our licensed artists and is protected by copyright and trademark laws. You may not reproduce, distribute, or create derivative works without our written permission.</p>"
+          }
+        },
+        "conduct": {
+          "type": "heading",
+          "settings": { "heading": "7. User Conduct" }
+        },
+        "conduct_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>You agree not to use our website for any unlawful purpose, to transmit harmful code, to attempt unauthorized access to our systems, or to harass other users or our staff.</p>"
+          }
+        },
+        "disclaimer": {
+          "type": "heading",
+          "settings": { "heading": "8. Disclaimer of Warranties" }
+        },
+        "disclaimer_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Our website and products are provided \"as is\" without warranties of any kind, express or implied. We do not warrant that the site will be uninterrupted, error-free, or free of viruses.</p>"
+          }
+        },
+        "liability": {
+          "type": "heading",
+          "settings": { "heading": "9. Limitation of Liability" }
+        },
+        "liability_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>To the fullest extent permitted by law, ShineWpride shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of our website or products. Our total liability shall not exceed the amount you paid for the relevant order.</p>"
+          }
+        },
+        "governing": {
+          "type": "heading",
+          "settings": { "heading": "10. Governing Law" }
+        },
+        "governing_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>These Terms are governed by the laws of the State of New York, United States, without regard to conflict of law principles. Any disputes shall be resolved in the courts of New York County, New York.</p>"
+          }
+        },
+        "contact": {
+          "type": "callout",
+          "settings": {
+            "body": "<p><strong>Questions about these Terms?</strong> Contact us at <a href=\"mailto:legal@shinewpride.com\">legal@shinewpride.com</a> or visit our <a href=\"/pages/contact\">Contact page</a>.</p>"
+          }
+        }
+      },
+      "block_order": ["overview", "acceptance", "acceptance_text", "products", "products_text", "orders", "orders_text", "shipping", "shipping_text", "returns", "returns_text", "ip", "ip_text", "conduct", "conduct_text", "disclaimer", "disclaimer_text", "liability", "liability_text", "governing", "governing_text", "contact"],
+      "settings": {
+        "title": "Terms of Service",
+        "intro": "The rules and guidelines for using ShineWpride and purchasing our products.",
+        "show_header": true,
+        "wide_layout": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

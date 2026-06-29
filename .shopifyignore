@@ -1,0 +1,10 @@
+# Development prototype (React/Vite) — not part of Shopify theme
+prototype/
+
+# Local product mockup images
+tee/
+
+# Git and editor
+.git/
+.gitignore
+.cursor/

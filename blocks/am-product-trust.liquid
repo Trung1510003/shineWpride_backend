@@ -1,0 +1,78 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<ul class="am-product-trust" {{ block.shopify_attributes }}>
+  {%- if block.settings.show_shipping -%}
+    <li class="am-product-trust__item">
+      <svg class="am-product-trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+      </svg>
+      <span>{{ block.settings.shipping_text }}</span>
+    </li>
+  {%- endif -%}
+  {%- if block.settings.show_secure -%}
+    <li class="am-product-trust__item">
+      <svg class="am-product-trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span>{{ block.settings.secure_text }}</span>
+    </li>
+  {%- endif -%}
+  {%- if block.settings.show_guarantee -%}
+    <li class="am-product-trust__item">
+      <svg class="am-product-trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/>
+      </svg>
+      <span>{{ block.settings.guarantee_text }}</span>
+    </li>
+  {%- endif -%}
+</ul>
+
+{% schema %}
+{
+  "name": "Product trust badges",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_shipping",
+      "label": "Show free shipping",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "Free shipping on orders over $50"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secure",
+      "label": "Show secure checkout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "secure_text",
+      "label": "Secure checkout text",
+      "default": "100% safe & secure checkout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Show money-back guarantee",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee text",
+      "default": "30-day money back guarantee"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product trust badges"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,90 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What is ShineWpride?",
+            "answer": "<p>ShineWpride is an online store offering LGBTQ+ themed apparel, accessories, and art from independent creators. We celebrate pride, identity, and self-expression through high-quality, meaningful designs.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I place an order?",
+            "answer": "<p>Browse our collections, select your product and size, add it to your cart, and proceed to checkout. You'll receive an order confirmation email once your purchase is complete.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept all major credit and debit cards, PayPal, Apple Pay, Google Pay, and Shop Pay. All transactions are secured with SSL encryption.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping typically takes 5–10 business days domestically and 10–20 business days internationally. Express options are available at checkout. See our <a href=\"/pages/shipping-policy\">Shipping Policy</a> for full details.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer free shipping?",
+            "answer": "<p>Yes! We offer free standard shipping on orders over $50. The free shipping progress bar in your cart shows how close you are to qualifying.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We accept returns within 30 days of delivery for unworn, unwashed items in original condition. Custom or personalized items may not be eligible. See our <a href=\"/pages/refund-policy\">Refund & Return Policy</a> for details.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>Once your order ships, you'll receive an email with a tracking number and link. You can also log into your account to view order status.</p>"
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change or cancel my order?",
+            "answer": "<p>Orders can be modified or cancelled within 1 hour of placement. After that, production may have already started. Contact us at hello@shinewpride.com as soon as possible.</p>"
+          }
+        },
+        "faq_9": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, we ship to most countries worldwide. International orders may be subject to customs duties and taxes, which are the responsibility of the recipient.</p>"
+          }
+        },
+        "faq_10": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I contact customer support?",
+            "answer": "<p>Reach us via our <a href=\"/pages/contact\">Contact page</a>, email hello@shinewpride.com, or through our social media channels. We typically respond within 1–2 business days.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6", "faq_7", "faq_8", "faq_9", "faq_10"],
+      "settings": {
+        "title": "FAQ",
+        "intro": "Find answers to the most common questions about orders, shipping, returns, and more.",
+        "show_header": true,
+        "wide_layout": false,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+}
+
+enum ScheduleSlot {
+  SIX_PM
+  EIGHT_PM
+}
+
+enum EmailSendStatus {
+  SENT
+  FAILED
+}
+
+enum WatermarkStatus {
+  DONE
+  FAILED
+}
+
+model Subscriber {
+  id                 String           @id @default(cuid())
+  email              String
+  shopDomain         String
+  source             String
+  status             SubscriberStatus @default(ACTIVE)
+  shopifyCustomerId  String?
+  createdAt          DateTime         @default(now())
+
+  @@unique([shopDomain, email])
+  @@index([shopDomain])
+  @@index([status])
+}
+
+model EmailCampaign {
+  id           String       @id @default(cuid())
+  name         String
+  subject      String
+  htmlTemplate String       @db.Text
+  scheduleSlot ScheduleSlot
+  active       Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+
+  sendLogs EmailSendLog[]
+}
+
+model EmailSendLog {
+  id              String          @id @default(cuid())
+  campaignId      String
+  subscriberEmail String
+  status          EmailSendStatus
+  error           String?
+  sentAt          DateTime        @default(now())
+
+  campaign EmailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId])
+  @@index([subscriberEmail])
+  @@index([sentAt])
+}
+
+model WatermarkLog {
+  id              String          @id @default(cuid())
+  shopifyMediaId  String
+  productId       String
+  status          WatermarkStatus
+  originalUrl     String
+  watermarkedUrl  String?
+  createdAt       DateTime        @default(now())
+
+  @@index([shopifyMediaId])
+  @@index([productId])
+  @@index([createdAt])
+}

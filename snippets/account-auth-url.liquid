@@ -1,0 +1,30 @@
+{%- doc -%}
+  Customer account URLs with English locale forced.
+
+  @param {string} type - login | register | account
+{%- enddoc -%}
+
+{%- liquid
+  assign auth_locale = 'en'
+  assign type = type | default: 'login'
+
+  case type
+    when 'register'
+      assign url = routes.account_register_url
+    when 'account'
+      assign url = routes.account_url
+    else
+      assign url = routes.account_login_url
+  endcase
+
+  assign current_locale_param = 'locale=' | append: request.locale.iso_code
+  assign english_locale_param = 'locale=' | append: auth_locale
+
+  if url contains current_locale_param
+    assign url = url | replace: current_locale_param, english_locale_param
+  else
+    assign url = url | replace: 'locale=vi', english_locale_param
+  endif
+
+  echo url
+-%}

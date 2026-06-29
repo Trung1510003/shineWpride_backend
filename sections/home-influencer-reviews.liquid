@@ -1,0 +1,161 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+{{ 'home-influencer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'home-influencer.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<section class="influencer-reviews" data-influencer-section id="influencer-reviews">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="influencer-reviews__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="influencer-reviews__track">
+    {%- for block in section.blocks -%}
+      <button
+        type="button"
+        class="influencer-review-card"
+        data-influencer-open="{{ block.id }}"
+        aria-label="Watch review by {{ block.settings.name | escape }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="influencer-review-card__thumb">
+          {% render 'influencer-video-thumb', block: block %}
+          <div class="influencer-review-card__play-badge" aria-hidden="true">
+            <span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </div>
+          {%- if block.settings.video_url != blank -%}
+            <span class="influencer-review-card__video-tag">Video</span>
+          {%- endif -%}
+        </div>
+        <div class="influencer-review-card__body">
+          <div class="influencer-review-card__profile">
+            <div class="influencer-review-card__avatar">
+              {%- if block.settings.avatar != blank -%}
+                {{ block.settings.avatar | image_url: width: 72 | image_tag: loading: 'lazy', widths: '36, 72', sizes: '36px' }}
+              {%- else -%}
+                {% render 'influencer-video-thumb', block: block, class_prefix: 'influencer-review-card', as_avatar: true %}
+              {%- endif -%}
+            </div>
+            <div>
+              {%- if block.settings.name != blank -%}
+                <p class="influencer-review-card__name">{{ block.settings.name }}</p>
+              {%- endif -%}
+              {%- if block.settings.handle != blank -%}
+                <p class="influencer-review-card__handle">{{ block.settings.handle }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- if block.settings.quote != blank -%}
+            <p class="influencer-review-card__quote">"{{ block.settings.quote }}"</p>
+          {%- endif -%}
+        </div>
+      </button>
+    {%- endfor -%}
+  </div>
+
+  {% render 'influencer-video-modal', section: section %}
+</section>
+
+{% schema %}
+{
+  "name": "Influencer reviews",
+  "tag": "section",
+  "class": "influencer-reviews-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Influencer Reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Influencer photo"
+        },
+        {
+          "type": "image_picker",
+          "id": "preview_image",
+          "label": "Video thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Influencer Name"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "default": "@influencer"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review quote",
+          "default": "Absolutely love the quality and the message behind every piece."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Review video"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (YouTube or MP4)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Influencer reviews",
+      "category": "Storytelling",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "name": "Alex Rivera",
+            "handle": "@alexrivera",
+            "quote": "The quality blew me away — vibrant prints and so comfortable to wear all day."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Jordan Kim",
+            "handle": "@jordankim",
+            "quote": "Finally found pride merch that actually looks and feels premium."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Sam Ortiz",
+            "handle": "@samortiz",
+            "quote": "Ordered three items — every single one exceeded my expectations."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Taylor Brooks",
+            "handle": "@taylorb",
+            "quote": "Wearing ShineWpride everywhere. The designs are bold and meaningful."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

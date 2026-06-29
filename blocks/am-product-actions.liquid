@@ -1,0 +1,47 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign share_url = closest.product.url | default: product.url
+  if share_url != blank
+    assign share_url = request.origin | append: share_url
+  endif
+-%}
+
+<div class="am-product-actions" {{ block.shopify_attributes }}>
+  <a
+    href="{% render 'wishlist-url' %}"
+    class="am-product-actions__btn"
+    aria-label="Add to wishlist"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+    </svg>
+  </a>
+  <button
+    type="button"
+    class="am-product-actions__btn"
+    data-am-share
+    data-share-url="{{ share_url }}"
+    data-share-title="{{ closest.product.title | default: product.title | escape }}"
+    aria-label="Share product"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+      <path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/>
+    </svg>
+  </button>
+</div>
+
+<script src="{{ 'am-product.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+{% schema %}
+{
+  "name": "Wishlist & share",
+  "presets": [
+    {
+      "name": "Wishlist & share"
+    }
+  ]
+}
+{% endschema %}

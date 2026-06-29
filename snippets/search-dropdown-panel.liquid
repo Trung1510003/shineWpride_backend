@@ -1,0 +1,120 @@
+{%- doc -%}
+  Redbubble-style empty state for header search dropdown.
+
+  @param {string} [search_url] - Base search URL
+{%- enddoc -%}
+
+{%- liquid
+  assign base_search = search_url | default: routes.search_url
+  assign trending_terms = 'pride merch,stickers,phone cases,t-shirts,posters,sci-fi merch' | split: ','
+-%}
+
+<div class="rb-search-dropdown__empty" data-search-empty>
+  <div class="rb-search-dropdown__layout">
+    <aside class="rb-search-dropdown__sidebar">
+      <div class="rb-search-dropdown__block" data-recent-wrap hidden>
+        <h3 class="rb-search-dropdown__heading">Recent searches</h3>
+        <ul class="rb-search-dropdown__terms" data-recent-list></ul>
+      </div>
+
+      <div class="rb-search-dropdown__block">
+        <h3 class="rb-search-dropdown__heading">Trending searches</h3>
+        <ul class="rb-search-dropdown__terms">
+          {%- for term in trending_terms -%}
+            <li>
+              <a
+                class="rb-search-dropdown__term"
+                href="{{ base_search }}?q={{ term | strip | url_param_escape }}"
+                data-search-term="{{ term | strip | escape }}"
+              >
+                <span class="rb-search-dropdown__term-icon rb-search-dropdown__term-icon--trend" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12 6.5 7.5 9.5 10.5 14 4"/><path d="M10 4h4v4"/></svg>
+                </span>
+                <span class="rb-search-dropdown__term-text">{{ term | strip }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </aside>
+
+    <div class="rb-search-dropdown__main">
+      <section class="rb-search-dropdown__section">
+        <h3 class="rb-search-dropdown__heading">Popular products</h3>
+        <div class="rb-search-dropdown__card-row">
+          <a href="{{ routes.all_products_collection_url }}" class="rb-search-dropdown__product-card">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #e85d04;">T-Shirts</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-tshirts.jpg' | asset_url }}" alt="T-Shirts" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+          <a href="{{ routes.search_url }}?q=stickers" class="rb-search-dropdown__product-card">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #3d9a26;">Stickers</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-stickers.jpg' | asset_url }}" alt="Stickers" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+          <a href="{{ routes.search_url }}?q=posters" class="rb-search-dropdown__product-card">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #e91e8c;">Posters</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-posters.jpg' | asset_url }}" alt="Posters" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="rb-search-dropdown__section">
+        <h3 class="rb-search-dropdown__heading">Quick links</h3>
+        <div class="rb-search-dropdown__card-row">
+          <a href="/#new-arrivals" class="rb-search-dropdown__product-card rb-search-dropdown__product-card--link">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #4a6cf7;">New arrivals</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-new-arrivals.jpg' | asset_url }}" alt="New arrivals" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+          <a href="{% render 'wishlist-url' %}" class="rb-search-dropdown__product-card rb-search-dropdown__product-card--link">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #f5b800;">Gift ideas</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-pride.jpg' | asset_url }}" alt="Gift ideas" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+          <a href="{{ routes.search_url }}?q=sci-fi" class="rb-search-dropdown__product-card rb-search-dropdown__product-card--link">
+            <div class="rb-search-dropdown__product-card-head" style="--card-head: #0d9b8a;">Fan art merch</div>
+            <div class="rb-search-dropdown__product-card-media">
+              <img src="{{ 'demo-cat-sci-fi.jpg' | asset_url }}" alt="Fan art merch" width="200" height="200" loading="lazy">
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <footer class="rb-search-dropdown__footer">
+        <ul class="rb-search-dropdown__footer-links">
+          <li>
+            <a href="/pages/faq">
+              <span class="rb-search-dropdown__footer-arrow" aria-hidden="true">↗</span>
+              Where's my order?
+            </a>
+          </li>
+          <li>
+            <a href="/pages/faq">
+              <span class="rb-search-dropdown__footer-arrow" aria-hidden="true">↗</span>
+              Worldwide shipping
+            </a>
+          </li>
+          <li>
+            <a href="/pages/faq">
+              <span class="rb-search-dropdown__footer-arrow" aria-hidden="true">↗</span>
+              Customer support
+            </a>
+          </li>
+          <li>
+            <a href="/pages/about-us">
+              <span class="rb-search-dropdown__footer-arrow" aria-hidden="true">↗</span>
+              About ShineWpride
+            </a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+</div>

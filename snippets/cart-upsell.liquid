@@ -1,0 +1,78 @@
+{%- doc -%}
+  Pre-checkout upsell carousel for cart drawer and cart page.
+{%- enddoc -%}
+
+{%- liquid
+  assign upsell_collection = settings.cart_upsell_collection
+  assign max_products = settings.cart_upsell_max | default: 4
+  assign heading = settings.cart_upsell_heading | default: 'Complete your order'
+  assign shown = 0
+
+  if upsell_collection != blank and upsell_collection.products_count > 0
+    assign upsell_products = upsell_collection.products
+  else
+    assign upsell_products = collections.all.products
+  endif
+-%}
+
+{%- if cart.empty? == false -%}
+  {%- capture upsell_items -%}
+    {%- for product in upsell_products -%}
+      {%- if shown >= max_products -%}
+        {%- break -%}
+      {%- endif -%}
+
+      {%- assign in_cart = false -%}
+      {%- for item in cart.items -%}
+        {%- if item.product_id == product.id -%}
+          {%- assign in_cart = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if in_cart -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- assign variant = product.selected_or_first_available_variant -%}
+      {%- unless variant.available -%}
+        {%- continue -%}
+      {%- endunless -%}
+
+      {%- assign shown = shown | plus: 1 -%}
+      <div class="cart-upsell__item">
+        <a href="{{ product.url }}" class="cart-upsell__media">
+          {%- if product.featured_image != blank -%}
+            {{
+              product.featured_image
+              | image_url: width: 200
+              | image_tag: loading: 'lazy', widths: '100, 150, 200', sizes: '72px', alt: product.title
+            }}
+          {%- else -%}
+            <span class="cart-upsell__placeholder" aria-hidden="true"></span>
+          {%- endif -%}
+        </a>
+        <div class="cart-upsell__info">
+          <a href="{{ product.url }}" class="cart-upsell__title">{{ product.title }}</a>
+          <p class="cart-upsell__price">{{ variant.price | money }}</p>
+        </div>
+        <button
+          type="button"
+          class="cart-upsell__add button button-secondary"
+          data-cart-upsell-add
+          data-variant-id="{{ variant.id }}"
+          aria-label="{{ 'actions.add_to_cart' | t }}: {{ product.title | escape }}"
+        >
+          {{ 'actions.add' | t }}
+        </button>
+      </div>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if shown > 0 -%}
+    <cart-upsell class="cart-upsell">
+      <p class="cart-upsell__heading">{{ heading }}</p>
+      <div class="cart-upsell__list">{{ upsell_items }}</div>
+    </cart-upsell>
+    <script type="module" src="{{ 'cart-upsell.js' | asset_url }}" fetchpriority="low"></script>
+  {%- endif -%}
+{%- endif -%}

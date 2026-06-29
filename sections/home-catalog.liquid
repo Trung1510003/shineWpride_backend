@@ -1,0 +1,385 @@
+
+{{ 'home-redbubble.css' | asset_url | stylesheet_tag }}
+{{ 'home-catalog.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'home-catalog.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+{%- liquid
+  assign default_tab = section.settings.default_tab
+  assign all_limit = section.settings.all_max_products
+  assign row_limit = section.settings.row_max_products
+
+  assign collection_blocks = section.blocks | where: 'type', 'collection'
+  assign group_blocks = section.blocks | where: 'type', 'product_group'
+-%}
+
+<section class="home-catalog" id="shop-catalog" data-home-catalog>
+  <div class="home-catalog__nav">
+    <div class="home-catalog__tabs" role="tablist" aria-label="{{ section.settings.heading }}">
+      <button
+        type="button"
+        class="home-catalog__tab{% if default_tab == 'all' %} is-active{% endif %}"
+        data-catalog-tab="all"
+        role="tab"
+        aria-selected="{% if default_tab == 'all' %}true{% else %}false{% endif %}"
+      >
+        {{ section.settings.all_tab_label }}
+      </button>
+      <button
+        type="button"
+        class="home-catalog__tab{% if default_tab == 'collections' %} is-active{% endif %}"
+        data-catalog-tab="collections"
+        role="tab"
+        aria-selected="{% if default_tab == 'collections' %}true{% else %}false{% endif %}"
+      >
+        {{ section.settings.collections_tab_label }}
+      </button>
+      <button
+        type="button"
+        class="home-catalog__tab{% if default_tab == 'groups' %} is-active{% endif %}"
+        data-catalog-tab="groups"
+        role="tab"
+        aria-selected="{% if default_tab == 'groups' %}true{% else %}false{% endif %}"
+      >
+        {{ section.settings.groups_tab_label }}
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} ── All Products ── {%- endcomment -%}
+  <div
+    class="home-catalog__panel rb-section{% if default_tab == 'all' %} is-active{% endif %}"
+    data-catalog-panel="all"
+    role="tabpanel"
+    id="catalog-all"
+  >
+    <div class="rb-section__header">
+      <div>
+        <h2 class="rb-section__title">{{ section.settings.all_heading }}</h2>
+        {%- if collections.all.products_count > 0 -%}
+          <p class="home-catalog__count">{{ collections.all.products_count }} products</p>
+        {%- endif -%}
+      </div>
+      <a href="{{ routes.all_products_collection_url }}" class="rb-section__link">
+        {{ section.settings.all_link_label }}
+      </a>
+    </div>
+
+    {%- paginate collections.all.products by all_limit -%}
+      {% render 'rb-product-grid', products: collections.all.products, limit: all_limit %}
+    {%- endpaginate -%}
+
+    <div class="home-catalog__view-all">
+      <a href="{{ routes.all_products_collection_url }}" class="home-catalog__view-all-btn">
+        {{ section.settings.all_button_label }}
+      </a>
+    </div>
+  </div>
+
+  {%- comment -%} ── By Collection ── {%- endcomment -%}
+  <div
+    class="home-catalog__panel{% if default_tab == 'collections' %} is-active{% endif %}"
+    data-catalog-panel="collections"
+    role="tabpanel"
+    id="catalog-collections"
+  >
+    {%- if collection_blocks.size > 0 -%}
+      <nav class="home-catalog__collections-index" aria-label="Collections">
+        {%- for block in collection_blocks -%}
+          {%- liquid
+            assign col = block.settings.collection
+            assign col_title = block.settings.title
+            if col_title == blank and col != blank
+              assign col_title = col.title
+            endif
+            if col_title == blank
+              assign col_title = 'Collection'
+            endif
+            assign col_handle = col.handle | default: block.id
+          -%}
+          <a
+            href="#collection-{{ col_handle }}"
+            class="home-catalog__collection-chip"
+            data-catalog-jump="collections"
+            {{ block.shopify_attributes }}
+          >
+            {{ col_title }}
+          </a>
+        {%- endfor -%}
+      </nav>
+
+      {%- for block in collection_blocks -%}
+        {%- liquid
+          assign col = block.settings.collection
+          assign col_title = block.settings.title
+          if col_title == blank and col != blank
+            assign col_title = col.title
+          endif
+          if col_title == blank
+            assign col_title = 'Collection'
+          endif
+          assign col_handle = col.handle | default: block.id
+          assign col_url = col.url | default: routes.all_products_collection_url
+        -%}
+        <div class="home-catalog__group rb-section" id="collection-{{ col_handle }}">
+          <div class="rb-section__header">
+            <div>
+              <h2 class="rb-section__title">{{ col_title }}</h2>
+              {%- if col != blank and col.products_count > 0 -%}
+                <p class="home-catalog__count">{{ col.products_count }} products</p>
+              {%- endif -%}
+            </div>
+            <a href="{{ col_url }}" class="rb-section__link">{{ section.settings.row_link_label }}</a>
+          </div>
+
+          {%- if col != blank and col.products_count > 0 -%}
+            {% render 'rb-product-grid', products: col.products, limit: row_limit %}
+          {%- else -%}
+            {% render 'rb-product-grid', limit: row_limit %}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <p class="home-catalog__empty">Add collection blocks in the theme editor to show products by collection.</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ── By Product Group (type) ── {%- endcomment -%}
+  <div
+    class="home-catalog__panel{% if default_tab == 'groups' %} is-active{% endif %}"
+    data-catalog-panel="groups"
+    role="tabpanel"
+    id="catalog-groups"
+  >
+    {%- if group_blocks.size > 0 -%}
+      <nav class="home-catalog__groups-index" aria-label="Product groups">
+        {%- for block in group_blocks -%}
+          {%- liquid
+            assign group_title = block.settings.title
+            if group_title == blank
+              assign group_title = block.settings.product_type
+            endif
+          -%}
+          <a
+            href="#group-{{ group_title | handleize }}"
+            class="home-catalog__group-chip"
+            data-catalog-jump="groups"
+            {{ block.shopify_attributes }}
+          >
+            {{ group_title }}
+          </a>
+        {%- endfor -%}
+      </nav>
+
+      {%- paginate collections.all.products by 250 -%}
+        {%- for block in group_blocks -%}
+          {%- liquid
+            assign group_title = block.settings.title
+            if group_title == blank
+              assign group_title = block.settings.product_type
+            endif
+            assign type_filter = block.settings.product_type
+            assign group_count = 0
+          -%}
+
+          {%- for product in collections.all.products -%}
+            {%- if product.type == type_filter -%}
+              {%- assign group_count = group_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <div class="home-catalog__group rb-section" id="group-{{ group_title | handleize }}">
+            <div class="rb-section__header">
+              <div>
+                <h2 class="rb-section__title">{{ group_title }}</h2>
+                {%- if group_count > 0 -%}
+                  <p class="home-catalog__count">{{ group_count }} products</p>
+                {%- endif -%}
+              </div>
+              <a href="{{ routes.all_products_collection_url }}?filter.p.product_type={{ type_filter | url_param_escape }}" class="rb-section__link">
+                {{ section.settings.row_link_label }}
+              </a>
+            </div>
+
+            {%- if group_count > 0 -%}
+              {%- assign shown = 0 -%}
+              <div class="rb-products__grid">
+                {%- for product in collections.all.products -%}
+                  {%- if product.type == type_filter and shown < row_limit -%}
+                    {%- liquid
+                      assign shown = shown | plus: 1
+                      assign artist_name = product.vendor
+                      if artist_name == blank
+                        assign artist_name = 'Independent Artist'
+                      endif
+                    -%}
+                    {% render 'rb-product-card',
+                      title: product.title,
+                      artist: artist_name,
+                      price: product.price | money,
+                      url: product.url,
+                      image: product.featured_image
+                    %}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              {% render 'rb-product-grid', limit: row_limit, demo_group: type_filter %}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- endpaginate -%}
+    {%- else -%}
+      <p class="home-catalog__empty">Add product group blocks in the theme editor to show products by type.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product catalog",
+  "tag": "section",
+  "class": "home-catalog-section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section label (accessibility)",
+      "default": "Product catalog"
+    },
+    {
+      "type": "select",
+      "id": "default_tab",
+      "label": "Default tab",
+      "options": [
+        { "value": "all", "label": "All products" },
+        { "value": "collections", "label": "Collections" },
+        { "value": "groups", "label": "Product groups" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "header",
+      "content": "All products tab"
+    },
+    {
+      "type": "text",
+      "id": "all_tab_label",
+      "label": "Tab label",
+      "default": "All Products"
+    },
+    {
+      "type": "text",
+      "id": "all_heading",
+      "label": "Heading",
+      "default": "All Products"
+    },
+    {
+      "type": "text",
+      "id": "all_link_label",
+      "label": "Header link label",
+      "default": "View all"
+    },
+    {
+      "type": "text",
+      "id": "all_button_label",
+      "label": "Bottom button label",
+      "default": "Shop all products"
+    },
+    {
+      "type": "range",
+      "id": "all_max_products",
+      "label": "Products to show",
+      "min": 8,
+      "max": 50,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Collections & groups tabs"
+    },
+    {
+      "type": "text",
+      "id": "collections_tab_label",
+      "label": "Collections tab label",
+      "default": "By Collection"
+    },
+    {
+      "type": "text",
+      "id": "groups_tab_label",
+      "label": "Groups tab label",
+      "default": "By Product Group"
+    },
+    {
+      "type": "text",
+      "id": "row_link_label",
+      "label": "Row link label",
+      "default": "Shop all"
+    },
+    {
+      "type": "range",
+      "id": "row_max_products",
+      "label": "Products per row",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title",
+          "info": "Leave blank to use collection title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    },
+    {
+      "type": "product_group",
+      "name": "Product group",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Display title",
+          "default": "T-Shirts"
+        },
+        {
+          "type": "text",
+          "id": "product_type",
+          "label": "Product type",
+          "info": "Must match the Product type field in Shopify Admin",
+          "default": "T-Shirts"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product catalog",
+      "category": "Products",
+      "blocks": [
+        { "type": "collection", "settings": { "title": "Celebrate Pride" } },
+        { "type": "collection", "settings": { "title": "New Arrivals" } },
+        { "type": "collection", "settings": { "title": "Best Sellers" } },
+        { "type": "product_group", "settings": { "title": "T-Shirts", "product_type": "T-Shirts" } },
+        { "type": "product_group", "settings": { "title": "Stickers", "product_type": "Stickers" } },
+        { "type": "product_group", "settings": { "title": "Phone Cases", "product_type": "Phone Cases" } },
+        { "type": "product_group", "settings": { "title": "Posters", "product_type": "Posters" } },
+        { "type": "product_group", "settings": { "title": "Home & Living", "product_type": "Home & Living" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

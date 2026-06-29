@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "overview": {
+          "type": "text",
+          "settings": {
+            "body": "<p><em>Last updated: June 2025</em></p><p>Thank you for shopping at ShineWpride. This Shipping Policy explains how we process, ship, and deliver your orders.</p>"
+          }
+        },
+        "processing": {
+          "type": "heading",
+          "settings": { "heading": "Order Processing" }
+        },
+        "processing_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Most items are made to order and require 2–5 business days for production before shipping. During peak seasons (Pride Month, holidays), processing may take an additional 1–3 business days. You will receive an email confirmation when your order is placed and another when it ships.</p>"
+          }
+        },
+        "domestic": {
+          "type": "heading",
+          "settings": { "heading": "Domestic Shipping (United States)" }
+        },
+        "domestic_text": {
+          "type": "text",
+          "settings": {
+            "body": "<ul><li><strong>Standard Shipping</strong> (5–10 business days): $4.99 — FREE on orders over $50</li><li><strong>Express Shipping</strong> (2–4 business days): $9.99</li><li><strong>Overnight Shipping</strong> (1–2 business days): $19.99 (select regions only)</li></ul><p>Delivery times are estimates and begin after the order has shipped, not after it is placed.</p>"
+          }
+        },
+        "international": {
+          "type": "heading",
+          "settings": { "heading": "International Shipping" }
+        },
+        "international_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>We ship to most countries worldwide. International delivery typically takes 10–20 business days via standard shipping. Express international options may be available at checkout depending on your location.</p><p><strong>Customs & Duties:</strong> International orders may be subject to import duties, taxes, and customs fees levied by your country. These charges are the responsibility of the recipient and are not included in our product or shipping prices.</p>"
+          }
+        },
+        "tracking": {
+          "type": "heading",
+          "settings": { "heading": "Tracking Your Order" }
+        },
+        "tracking_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Once shipped, you'll receive an email with your tracking number. Please allow 24–48 hours for tracking information to update. If your tracking hasn't updated after 5 business days, contact us at hello@shinewpride.com.</p>"
+          }
+        },
+        "issues": {
+          "type": "heading",
+          "settings": { "heading": "Lost or Damaged Packages" }
+        },
+        "issues_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>If your package is lost in transit or arrives damaged, contact us within 14 days of the estimated delivery date. We will work with the carrier to resolve the issue and send a replacement or issue a refund at no extra cost to you.</p>"
+          }
+        },
+        "callout": {
+          "type": "callout",
+          "settings": {
+            "body": "<p><strong>Questions about shipping?</strong> Visit our <a href=\"/pages/faq\">FAQ</a> or <a href=\"/pages/contact\">Contact us</a> — we're happy to help.</p>"
+          }
+        }
+      },
+      "block_order": ["overview", "processing", "processing_text", "domestic", "domestic_text", "international", "international_text", "tracking", "tracking_text", "issues", "issues_text", "callout"],
+      "settings": {
+        "title": "Shipping Policy",
+        "intro": "Everything you need to know about how we get your order to you.",
+        "show_header": true,
+        "wide_layout": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

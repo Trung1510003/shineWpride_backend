@@ -1,0 +1,50 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<div class="am-page-header rb-home-shell">
+  {%- if template.name == 'cart' and cart.empty? -%}
+    <h1 class="am-page-header__title">Your cart is empty</h1>
+    <p class="am-page-header__subtitle">Looks like you haven't added any items yet</p>
+  {%- else -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="am-page-header__title">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if template.name == 'cart' -%}
+      <p class="am-page-header__subtitle">
+        You have {{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %} in your cart
+      </p>
+    {%- elsif section.settings.subheading != blank -%}
+      <p class="am-page-header__subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Artistry page header",
+  "tag": "section",
+  "class": "am-page-header-section",
+  "enabled_on": {
+    "templates": ["collection", "cart", "search"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop All Products"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore our complete collection of unique designs"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artistry page header"
+    }
+  ]
+}
+{% endschema %}

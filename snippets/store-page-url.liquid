@@ -1,0 +1,21 @@
+{%- doc -%}
+  Resolves a store page URL by handle, with fallback path.
+
+  @param {string} handle - Page handle (e.g. about-us)
+{%- enddoc -%}
+
+{%- liquid
+  assign page_handle = handle | default: ''
+  assign fallback = '/pages/' | append: page_handle
+
+  if page_handle != blank
+    assign target_page = pages[page_handle]
+    if target_page != blank
+      echo target_page.url
+    else
+      echo fallback
+    endif
+  else
+    echo fallback
+  endif
+-%}

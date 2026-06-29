@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "main": {
+      "type": "content-page",
+      "blocks": {
+        "overview": {
+          "type": "text",
+          "settings": {
+            "body": "<p><em>Last updated: June 2025</em></p><p>We want you to love every ShineWpride purchase. If something isn't right, we're here to make it right.</p>"
+          }
+        },
+        "returns": {
+          "type": "heading",
+          "settings": { "heading": "Return Eligibility" }
+        },
+        "returns_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>You may return most items within <strong>30 days</strong> of delivery for a full refund or exchange, provided that:</p><ul><li>The item is unworn, unwashed, and in original condition</li><li>Tags and packaging are intact</li><li>You have proof of purchase (order number or receipt)</li></ul><p>The following items <strong>cannot</strong> be returned:</p><ul><li>Custom or personalized products</li><li>Final sale or clearance items (marked at time of purchase)</li><li>Items damaged due to misuse or normal wear</li><li>Intimate apparel (for hygiene reasons)</li></ul>"
+          }
+        },
+        "process": {
+          "type": "heading",
+          "settings": { "heading": "How to Start a Return" }
+        },
+        "process_text": {
+          "type": "text",
+          "settings": {
+            "body": "<ol><li>Email us at <strong>hello@shinewpride.com</strong> with your order number and reason for return</li><li>We'll send you a Return Merchandise Authorization (RMA) and return instructions within 1–2 business days</li><li>Ship the item back using a trackable method</li><li>Once received and inspected, we'll process your refund within 5–7 business days</li></ol>"
+          }
+        },
+        "refunds": {
+          "type": "heading",
+          "settings": { "heading": "Refunds" }
+        },
+        "refunds_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Refunds are issued to the original payment method. Please allow 5–10 business days for the refund to appear on your statement after processing. Original shipping costs are non-refundable unless the return is due to our error (wrong item, defective product, etc.).</p><p>Return shipping costs are the responsibility of the customer unless the item is defective or we shipped the wrong product.</p>"
+          }
+        },
+        "exchanges": {
+          "type": "heading",
+          "settings": { "heading": "Exchanges" }
+        },
+        "exchanges_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>Need a different size or color? We're happy to exchange your item within 30 days. Contact us with your order details and preferred replacement. Exchanges are subject to availability.</p>"
+          }
+        },
+        "defective": {
+          "type": "heading",
+          "settings": { "heading": "Defective or Incorrect Items" }
+        },
+        "defective_text": {
+          "type": "text",
+          "settings": {
+            "body": "<p>If you receive a defective or incorrect item, contact us within 7 days of delivery with photos. We will send a replacement at no charge or issue a full refund including shipping costs.</p>"
+          }
+        },
+        "callout": {
+          "type": "callout",
+          "settings": {
+            "body": "<p><strong>Need help with a return?</strong> Email <a href=\"mailto:hello@shinewpride.com\">hello@shinewpride.com</a> or visit our <a href=\"/pages/contact\">Contact page</a>.</p>"
+          }
+        }
+      },
+      "block_order": ["overview", "returns", "returns_text", "process", "process_text", "refunds", "refunds_text", "exchanges", "exchanges_text", "defective", "defective_text", "callout"],
+      "settings": {
+        "title": "Refund & Return Policy",
+        "intro": "Our commitment to your satisfaction — hassle-free returns within 30 days.",
+        "show_header": true,
+        "wide_layout": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

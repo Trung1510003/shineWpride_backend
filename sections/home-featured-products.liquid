@@ -1,0 +1,133 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<div class="am-featured rb-home-shell" id="featured-products">
+  <div class="am-featured__header">
+    <div class="am-featured__intro">
+      <h2 class="am-featured__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="am-featured__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ section.settings.link_url | default: routes.all_products_collection_url }}" class="am-featured__link am-featured__link--desktop">
+        <span>{{ section.settings.link_label }}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="am-featured__grid">
+    {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
+      {%- for product in section.settings.collection.products limit: section.settings.max_products -%}
+        {%- liquid
+          assign product_category = product.type
+          if product_category == blank
+            assign product_category = product.vendor
+          endif
+        -%}
+        {% render 'am-product-card',
+          title: product.title,
+          category: product_category,
+          price: product.price | money,
+          url: product.url,
+          image: product.featured_image
+        %}
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign demo_products = 'Rainbow Pride Tee|Apparel|$24.00|#e40303|#ff8c00|demo-rainbow-pride-tee.jpg,Equality Heart Hoodie|Apparel|$45.00|#ff6b6b|#ee5a24|demo-equality-heart-hoodie.jpg,Love Wins Sticker Pack|Stickers|$8.00|#f9ca24|#f0932b|demo-love-wins-stickers.jpg,Progress Flag Mug|Home Decor|$16.00|#6ab04c|#badc58|demo-progress-flag-mug.jpg,Non-Binary Pride Scarf|Apparel|$32.00|#4834d4|#686de0|demo-nonbinary-scarf.jpg,Trans Rights Poster|Posters|$18.00|#45aaf2|#4bcffa|demo-trans-rights-poster.jpg' | split: ',' -%}
+      {%- for item in demo_products limit: section.settings.max_products -%}
+        {%- liquid
+          assign parts = item | split: '|'
+          assign prod_title = parts[0]
+          assign prod_category = parts[1]
+          assign prod_price = parts[2]
+          assign prod_color_1 = parts[3]
+          assign prod_color_2 = parts[4]
+          assign prod_image = parts[5]
+        -%}
+        {% render 'am-product-card',
+          title: prod_title,
+          category: prod_category,
+          price: prod_price,
+          url: routes.all_products_collection_url,
+          color_1: prod_color_1,
+          color_2: prod_color_2,
+          image_asset: prod_image
+        %}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.link_label != blank -%}
+    <div class="am-featured__footer">
+      <a href="{{ section.settings.link_url | default: routes.all_products_collection_url }}" class="am-featured__link">
+        <span>{{ section.settings.link_label_mobile | default: section.settings.link_label }}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "tag": "section",
+  "class": "am-featured-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Check out our most popular designs"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "View All"
+    },
+    {
+      "type": "text",
+      "id": "link_label_mobile",
+      "label": "Mobile link label",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max products",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured products",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

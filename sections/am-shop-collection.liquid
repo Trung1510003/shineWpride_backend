@@ -1,0 +1,133 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<script
+  src="{{ 'facets.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'am-shop.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign products_count = collection.products_count
+-%}
+
+<div class="am-shop-section" id="am-shop-{{ section.id }}">
+  <div class="am-shop rb-home-shell">
+    <div class="am-shop__layout">
+      {% render 'am-shop-facets',
+        section: section,
+        collection: collection,
+        filters: collection.filters,
+        sort_by: sort_by,
+        results_url: collection.url,
+        products_count: products_count
+      %}
+
+      <div class="am-shop__main">
+        <div class="am-shop__toolbar am-shop__toolbar--mobile">
+          <p class="am-shop__count" role="status">
+            {%- if products_count == 0 -%}
+              Showing 0 products
+            {%- elsif products_count == 1 -%}
+              Showing 1 product
+            {%- else -%}
+              Showing {{ products_count }} products
+            {%- endif -%}
+          </p>
+          <button
+            type="button"
+            class="am-shop__filter-toggle"
+            data-am-shop-open
+            aria-haspopup="dialog"
+            aria-controls="am-shop-filters"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            <span>{{ 'content.filters' | t }}</span>
+          </button>
+        </div>
+
+        <div class="am-shop__toolbar am-shop__toolbar--desktop">
+          <p class="am-shop__count" role="status">
+            {%- if products_count == 0 -%}
+              Showing 0 products
+            {%- elsif products_count == 1 -%}
+              Showing 1 product
+            {%- else -%}
+              Showing {{ products_count }} products
+            {%- endif -%}
+          </p>
+        </div>
+
+        {% paginate collection.products by section.settings.products_per_page %}
+          {%- if collection.products.size > 0 -%}
+            <ul class="am-shop__grid" id="ResultsList" role="list">
+              {%- for product in collection.products -%}
+                {%- liquid
+                  assign product_category = product.type
+                  if product_category == blank
+                    assign product_category = product.vendor
+                  endif
+                -%}
+                <li class="am-shop__grid-item">
+                  {% render 'am-product-card',
+                    title: product.title,
+                    category: product_category,
+                    price: product.price | money,
+                    url: product.url,
+                    image: product.featured_image
+                  %}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if paginate.pages > 1 -%}
+              <div class="am-shop__pagination">
+                {% render 'pagination-controls', paginate: paginate %}
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            <div class="am-shop__empty">
+              <p class="am-shop__empty-text">No products found</p>
+              <a href="{{ collection.url }}" class="am-shop__empty-reset">Reset filters</a>
+            </div>
+          {%- endif -%}
+        {% endpaginate %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Artistry shop",
+  "tag": "section",
+  "class": "am-shop-collection-section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 36,
+      "step": 3,
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artistry shop"
+    }
+  ]
+}
+{% endschema %}

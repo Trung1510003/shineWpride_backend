@@ -1,0 +1,163 @@
+import { Product } from "@shared/api";
+
+export const mockProducts: Product[] = [
+  {
+    id: "1",
+    name: "Retro Sunset T-Shirt",
+    price: 24.99,
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
+    category: "Apparel",
+    rating: 4.5,
+    reviews: 128,
+    description:
+      "Classic vintage-inspired t-shirt with a stunning retro sunset design. Perfect for casual wear.",
+    colors: ["Black", "White", "Navy"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+  },
+  {
+    id: "2",
+    name: "Minimalist Art Hoodie",
+    price: 49.99,
+    image:
+      "https://images.unsplash.com/photo-1556821552-5f6d0f3a59f1?w=500&h=500&fit=crop",
+    category: "Apparel",
+    rating: 4.8,
+    reviews: 256,
+    description:
+      "Premium hoodie featuring minimalist line art design. Comfortable and stylish.",
+    colors: ["Gray", "Black", "Cream"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+  },
+  {
+    id: "3",
+    name: "Abstract Wave Poster",
+    price: 18.99,
+    image:
+      "https://images.unsplash.com/photo-1579783902614-e3fb5141b0cb?w=500&h=500&fit=crop",
+    category: "Art & Decor",
+    rating: 4.6,
+    reviews: 89,
+    description: "Modern abstract wave art print. Perfect for any room.",
+    colors: ["Blue", "Purple", "Pink"],
+    sizes: ["A3", "A2", "A1"],
+  },
+  {
+    id: "4",
+    name: "Geometric Mug",
+    price: 12.99,
+    image:
+      "https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?w=500&h=500&fit=crop",
+    category: "Accessories",
+    rating: 4.3,
+    reviews: 156,
+    description:
+      "High-quality ceramic mug with bold geometric patterns. Dishwasher safe.",
+    colors: ["White", "Black", "Gray"],
+    sizes: ["Standard"],
+  },
+  {
+    id: "5",
+    name: "Urban Street Art Hoodie",
+    price: 54.99,
+    image:
+      "https://images.unsplash.com/photo-1493514789131-586cb221d500?w=500&h=500&fit=crop",
+    category: "Apparel",
+    rating: 4.7,
+    reviews: 312,
+    description: "Bold street art inspired hoodie. Oversized fit for comfort.",
+    colors: ["Black", "White", "Navy"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+  },
+  {
+    id: "6",
+    name: "Botanical Printed Tote",
+    price: 19.99,
+    image:
+      "https://images.unsplash.com/photo-1606011604529-7e1c0effe3eb?w=500&h=500&fit=crop",
+    category: "Accessories",
+    rating: 4.4,
+    reviews: 98,
+    description: "Eco-friendly canvas tote with beautiful botanical prints.",
+    colors: ["Natural", "Khaki", "Charcoal"],
+    sizes: ["Standard"],
+  },
+  {
+    id: "7",
+    name: "Neon Glow Sticker Pack",
+    price: 8.99,
+    image:
+      "https://images.unsplash.com/photo-1611591406449-f9a09b8d90d6?w=500&h=500&fit=crop",
+    category: "Stickers",
+    rating: 4.9,
+    reviews: 203,
+    description: "Set of 10 vibrant neon glow stickers. Perfect for customizing.",
+    colors: ["Multi"],
+    sizes: ["Standard"],
+  },
+  {
+    id: "8",
+    name: "Vintage Vinyl Wall Art",
+    price: 32.99,
+    image:
+      "https://images.unsplash.com/photo-1579783902614-e3fb5141b0cb?w=500&h=500&fit=crop",
+    category: "Art & Decor",
+    rating: 4.6,
+    reviews: 145,
+    description: "Retro vinyl record inspired wall decor. Unique and timeless.",
+    colors: ["Black", "Gold", "Silver"],
+    sizes: ["12in", "18in"],
+  },
+  {
+    id: "9",
+    name: "Celestial Crop Top",
+    price: 28.99,
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
+    category: "Apparel",
+    rating: 4.5,
+    reviews: 167,
+    description: "Trendy crop top with celestial design. Perfect for festivals.",
+    colors: ["Black", "White", "Purple"],
+    sizes: ["XS", "S", "M", "L", "XL"],
+  },
+  {
+    id: "10",
+    name: "Coffee Art Enamel Pin",
+    price: 9.99,
+    image:
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=500&fit=crop",
+    category: "Accessories",
+    rating: 4.7,
+    reviews: 234,
+    description: "Cute enamel pin collection for coffee lovers.",
+    colors: ["Multi"],
+    sizes: ["Standard"],
+  },
+  {
+    id: "11",
+    name: "Ocean Wave Swim Trunks",
+    price: 35.99,
+    image:
+      "https://images.unsplash.com/photo-1566881768170-1e26bf1c8281?w=500&h=500&fit=crop",
+    category: "Apparel",
+    rating: 4.4,
+    reviews: 87,
+    description: "Breathable swim trunks with ocean-inspired prints.",
+    colors: ["Blue", "Teal", "Black"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+  },
+  {
+    id: "12",
+    name: "Mandala Print Bedding",
+    price: 59.99,
+    image:
+      "https://images.unsplash.com/photo-1598648964359-c0e5a1e7c8d0?w=500&h=500&fit=crop",
+    category: "Home",
+    rating: 4.8,
+    reviews: 421,
+    description: "Beautiful mandala print duvet cover set. Ultra comfortable.",
+    colors: ["Blue", "Purple", "Pink"],
+    sizes: ["Single", "Double", "Queen", "King"],
+  },
+];

@@ -1,0 +1,212 @@
+
+{{ 'artistry-marketplace.css' | asset_url | stylesheet_tag }}
+
+<script
+  src="{{ 'cart-icon.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'am-header.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{%- liquid
+  assign shop_url = section.settings.shop_link | default: routes.all_products_collection_url
+  assign collections_url = section.settings.collections_link | default: routes.collections_url
+  assign about_url = section.settings.about_link
+  if about_url == blank
+    assign about_page = pages['about-us']
+    if about_page != blank
+      assign about_url = about_page.url
+    else
+      assign about_url = routes.root_url
+    endif
+  endif
+-%}
+
+<div class="am-header" data-am-header>
+  <div class="am-header__inner rb-home-shell">
+    <a href="{{ routes.root_url }}" class="am-header__brand">
+      {%- if settings.logo != blank -%}
+        {%- liquid
+          assign logo_width = settings.logo_height | times: settings.logo.aspect_ratio | ceil
+          assign logo_width_mobile = settings.logo_height_mobile | times: settings.logo.aspect_ratio | ceil
+          assign logo_style = '--am-header-logo-width: ' | append: logo_width | append: 'px; --am-header-logo-width-mobile: ' | append: logo_width_mobile | append: 'px; --am-header-logo-height: ' | append: settings.logo_height | append: 'px; --am-header-logo-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
+          assign logo_alt = settings.logo.alt | default: section.settings.brand_name | default: shop.name
+        -%}
+        <span class="am-header__logo-image-wrap">
+          {% render 'image',
+            image: settings.logo,
+            class: 'am-header__logo-image',
+            height: settings.logo_height_mobile,
+            alt_text_fallback: logo_alt,
+            text_fallback: section.settings.brand_name,
+            style: logo_style
+          %}
+        </span>
+      {%- else -%}
+        <span class="am-header__logo-fallback" aria-hidden="true">✦</span>
+      {%- endif -%}
+      {%- if section.settings.show_brand_name and section.settings.brand_name != blank -%}
+        <span class="am-header__brand-name">{{ section.settings.brand_name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="am-header__nav" aria-label="{{ 'accessibility.navigation' | t }}">
+      <a href="{{ routes.root_url }}" class="am-header__nav-link">{{ section.settings.home_label }}</a>
+      <a href="{{ shop_url }}" class="am-header__nav-link">{{ section.settings.shop_label }}</a>
+      <a href="{{ collections_url }}" class="am-header__nav-link">{{ section.settings.collections_label }}</a>
+      <a href="{{ about_url }}" class="am-header__nav-link">{{ section.settings.about_label }}</a>
+    </nav>
+
+    <div class="am-header__actions">
+      <form
+        action="{{ routes.search_url }}"
+        method="get"
+        role="search"
+        class="am-header__search am-header__search--desktop"
+      >
+        <label class="visually-hidden" for="am-header-search-desktop">{{ 'content.search' | t }}</label>
+        <input
+          id="am-header-search-desktop"
+          type="search"
+          name="q"
+          class="am-header__search-input"
+          placeholder="{{ section.settings.search_placeholder }}"
+          value="{{ search.terms | escape }}"
+        >
+        <svg class="am-header__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </form>
+
+      <button
+        type="button"
+        class="am-header__icon-btn am-header__search-toggle"
+        data-am-header-search-open
+        aria-expanded="false"
+        aria-controls="am-header-search-mobile"
+      >
+        <span class="visually-hidden">{{ 'content.search' | t }}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </button>
+
+      <a href="{{ routes.cart_url }}" class="am-header__icon-btn am-header__cart" aria-label="{{ 'content.cart_title' | t }}">
+        <cart-icon class="am-header__cart-icon{% unless cart == empty %} am-header__cart-icon--has-cart{% endunless %}">
+          <svg class="am-header__cart-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 002 1.58h9.78a2 2 0 001.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+          {% render 'cart-bubble', limit: 100 %}
+        </cart-icon>
+      </a>
+    </div>
+  </div>
+
+  <div class="am-header__search-mobile" id="am-header-search-mobile" data-am-header-search-panel hidden>
+    <div class="am-header__search-mobile-inner rb-home-shell">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="am-header__search">
+        <label class="visually-hidden" for="am-header-search-mobile-input">{{ 'content.search' | t }}</label>
+        <input
+          id="am-header-search-mobile-input"
+          type="search"
+          name="q"
+          class="am-header__search-input"
+          placeholder="{{ section.settings.search_placeholder }}"
+          value="{{ search.terms | escape }}"
+        >
+      </form>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Artistry header",
+  "tag": "header",
+  "class": "header-section am-header-section am-header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "ShineW Pride"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brand_name",
+      "label": "Show brand name beside logo",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Logo image is managed in Theme settings → Logo"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search for pride merch, stickers, phone cases..."
+    },
+    {
+      "type": "header",
+      "content": "Navigation labels"
+    },
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop label",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "collections_label",
+      "label": "Collections label",
+      "default": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "about_label",
+      "label": "About label",
+      "default": "About"
+    },
+    {
+      "type": "header",
+      "content": "Navigation links"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Shop link"
+    },
+    {
+      "type": "url",
+      "id": "collections_link",
+      "label": "Collections link"
+    },
+    {
+      "type": "url",
+      "id": "about_link",
+      "label": "About link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artistry header"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

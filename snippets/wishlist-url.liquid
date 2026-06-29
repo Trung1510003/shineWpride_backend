@@ -1,0 +1,13 @@
+{%- doc -%}
+  Resolves the wishlist page URL from theme settings or the pages global.
+{%- enddoc -%}
+
+{%- liquid
+  if settings.wishlist_page != blank
+    echo settings.wishlist_page.url
+  elsif pages.wishlist != blank
+    echo pages.wishlist.url
+  else
+    echo '/pages/wishlist'
+  endif
+-%}
