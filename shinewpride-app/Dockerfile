@@ -1,6 +1,9 @@
 FROM node:20-bookworm-slim AS base
+# fontconfig + fonts are required so sharp/librsvg can render the watermark text
+# (without them the SVG text renders as empty "tofu" boxes).
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends openssl ca-certificates \
+  && apt-get install -y --no-install-recommends \
+    openssl ca-certificates fontconfig fonts-liberation fonts-dejavu-core \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
