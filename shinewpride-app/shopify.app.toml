@@ -2,7 +2,7 @@
 
 client_id = "f76893fedeafe85e9cd1e68618602bc4"
 name = "ShineW Pride Backend"
-application_url = "https://example.com"
+application_url = "https://shinewpridebackend-production.up.railway.app"
 embedded = true
 
 [access_scopes]
@@ -29,13 +29,16 @@ api_version = "2026-07"
   topics = [ "products/update" ]
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://shinewpridebackend-production.up.railway.app/auth/callback",
+  "https://shinewpridebackend-production.up.railway.app/auth/shopify/callback",
+  "https://shinewpridebackend-production.up.railway.app/api/auth/callback"
+]
 
 [app_proxy]
-url = "/proxy"
+url = "https://shinewpridebackend-production.up.railway.app/proxy"
 prefix = "apps"
 subpath = "shinewpride"
 
 [build]
-include_config_on_deploy = true
 automatically_update_urls_on_dev = true
