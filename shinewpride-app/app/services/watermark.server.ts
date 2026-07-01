@@ -1,3 +1,7 @@
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import path from "node:path";
+
 import sharp from "sharp";
 
 const MAX_WIDTH = 2000;
@@ -5,6 +9,15 @@ const DEFAULT_TEXT = "ShineWpride";
 const DEFAULT_OPACITY = 0.18;
 const OUTPUT_QUALITY = 82;
 const ROTATION_DEGREES = -30;
+const WATERMARK_FONT_FAMILY = "SWP Watermark";
+
+const require = createRequire(import.meta.url);
+const WATERMARK_FONT_PATH = path.join(
+  path.dirname(require.resolve("dejavu-fonts-ttf/package.json")),
+  "ttf/DejaVuSans-Bold.ttf",
+);
+
+let cachedFontBase64: string | undefined;
 
 export type WatermarkOptions = {
   text?: string;
@@ -20,6 +33,14 @@ function escapeXml(text: string): string {
     .replace(/'/g, "&apos;");
 }
 
+function getWatermarkFontBase64(): string {
+  if (!cachedFontBase64) {
+    cachedFontBase64 = readFileSync(WATERMARK_FONT_PATH).toString("base64");
+  }
+
+  return cachedFontBase64;
+}
+
 function createWatermarkSvg(
   width: number,
   height: number,
@@ -30,17 +51,26 @@ function createWatermarkSvg(
   const patternWidth = Math.round(fontSize * text.length * 0.65);
   const patternHeight = Math.round(fontSize * 2.8);
   const safeText = escapeXml(text);
+  const fontBase64 = getWatermarkFontBase64();
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <style type="text/css"><![CDATA[
+      @font-face {
+        font-family: '${WATERMARK_FONT_FAMILY}';
+        font-weight: 700;
+        font-style: normal;
+        src: url('data:font/ttf;base64,${fontBase64}') format('truetype');
+      }
+    ]]></style>
     <pattern id="watermark" patternUnits="userSpaceOnUse"
       width="${patternWidth}" height="${patternHeight}"
       patternTransform="rotate(${ROTATION_DEGREES})">
       <text x="0" y="${Math.round(fontSize * 0.85)}"
-        font-family="Arial, Helvetica, sans-serif"
+        font-family="${WATERMARK_FONT_FAMILY}"
         font-size="${fontSize}"
-        font-weight="600"
+        font-weight="700"
         fill="#ffffff"
         fill-opacity="${opacity}">${safeText}</text>
     </pattern>

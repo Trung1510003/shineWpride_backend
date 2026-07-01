@@ -52,4 +52,30 @@ describe("watermarkImage", () => {
     expect(metadata.width).toBeLessThanOrEqual(2000);
     expect(metadata.height).toBeLessThanOrEqual(1000);
   });
+
+  it("renders readable watermark text (not missing-glyph boxes)", async () => {
+    const plain = await sharp({
+      create: {
+        width: 800,
+        height: 600,
+        channels: 3,
+        background: { r: 40, g: 40, b: 40 },
+      },
+    })
+      .jpeg()
+      .toBuffer();
+
+    const watermarked = await watermarkImage(plain, { text: "ShineWpride", opacity: 0.35 });
+    const plainStats = await sharp(plain).stats();
+    const markedStats = await sharp(watermarked).stats();
+
+    const plainMean =
+      plainStats.channels.reduce((sum, channel) => sum + channel.mean, 0) /
+      plainStats.channels.length;
+    const markedMean =
+      markedStats.channels.reduce((sum, channel) => sum + channel.mean, 0) /
+      markedStats.channels.length;
+
+    expect(markedMean).toBeGreaterThan(plainMean + 2);
+  });
 });
